@@ -548,39 +548,42 @@ html:not(.has-reveal) .reveal { opacity: 1; transform: none; }
 
 /* Delivery-app product image frame:
    - 1:1 square (Wolt / DoorDash standard)
-   - pure white surface so packaging reads clearly
+   - very-light neutral #fafafa for better contrast than pure white
    - mix-blend-mode: multiply lifts white-ish photo backgrounds onto the
-     card so non-isolated photos still feel uniform
+     card so all 14 source photos read as one visual family
    - product gets generous padding so it "breathes" inside the frame
-   - subtle shadow under product simulates studio lighting */
+   - soft floor shadow under product simulates studio lighting */
 .card-art {
   aspect-ratio: 1 / 1;
-  background: #ffffff;
+  background: #fafafa;
   position: relative;
   overflow: hidden;
 }
 .card-art img {
   width: 100%; height: 100%;
   object-fit: contain;
-  padding: 22px;
+  padding: 24px;
   display: block;
+  position: relative;
+  z-index: 1;
   transition: transform .55s ease;
   mix-blend-mode: multiply;
-  filter: saturate(1.05) contrast(1.04);
+  filter: saturate(1.05) contrast(1.05);
 }
 .card:hover .card-art img { transform: scale(1.06); }
-/* SVG / vector fallback (kept for future use) */
+/* SVG / vector fallback */
 .card-art img:not(.is-photo)[src$=".svg"] {
   filter: none;
   mix-blend-mode: normal;
 }
-/* Soft floor shadow under product (sits below the image, above the bg) */
+/* Soft floor shadow under product */
 .card-art::before {
   content: '';
   position: absolute;
-  left: 18%; right: 18%; bottom: 14%;
-  height: 6%;
-  background: radial-gradient(50% 100% at 50% 50%, rgba(20, 20, 28, .14) 0%, transparent 70%);
+  left: 16%; right: 16%; bottom: 12%;
+  height: 7%;
+  background: radial-gradient(50% 100% at 50% 50%, rgba(20, 20, 28, .16) 0%, transparent 70%);
+  filter: blur(2px);
   pointer-events: none;
   z-index: 0;
 }
@@ -749,17 +752,17 @@ html:not(.has-reveal) .reveal { opacity: 1; transform: none; }
 .cart-item:hover { border-color: var(--line-strong); box-shadow: var(--shadow-xs); }
 .cart-thumb {
   width: 60px; height: 60px; border-radius: 12px;
-  background: #ffffff;
+  background: #fafafa;
   border: 1px solid var(--line-soft);
   overflow: hidden;
-  padding: 5px;
+  padding: 6px;
 }
 .cart-thumb img {
   width: 100%; height: 100%;
   object-fit: contain;
   display: block;
   mix-blend-mode: multiply;
-  filter: saturate(1.05) contrast(1.04);
+  filter: saturate(1.05) contrast(1.05);
 }
 .cart-info { min-width: 0; }
 .cart-info-name { font-weight: 600; font-size: 14px; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
