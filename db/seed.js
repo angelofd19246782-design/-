@@ -42,6 +42,12 @@ const IMG = {
   borjomi_bottle:  OFF('486/001/900/1346/front_fr.3.400.jpg'),
   cranberry_bottle:W('thumb/8/83/Lifetothefullest_cranberry_juice_bottle%2C_Hillegersberg%2C_Rotterdam_%282022%29_04.jpg/960px-Lifetothefullest_cranberry_juice_bottle%2C_Hillegersberg%2C_Rotterdam_%282022%29_04.jpg'),
 
+  // Real Russian fruit compote brand (FrutoNyanya) and Polish packaged
+  // borscht-equivalent (Dawtona red beet root soup) — replaces the
+  // Maille cornichons jar that was being incorrectly reused for these.
+  compote_jar:     OFF('460/033/800/6253/front_ru.4.400.jpg'),
+  borscht_jar:     OFF('590/171/301/2524/front_en.3.400.jpg'),
+
   // Wrapped chocolate bar — for sweets
   alenka_bar:      W('thumb/e/e1/Alenka_chocolate_2.JPG/960px-Alenka_chocolate_2.JPG'),
 
@@ -52,12 +58,7 @@ const IMG = {
   generic_sausage: OFF('590/823/053/1521/front_en.3.400.jpg'),
 
   // Salo — Lackmann actual brand product (OFF)
-  salo_pack:       OFF('000/000/000/4270/front_de.3.400.jpg'),
-
-  // Bread loaves — kept as the actual product because no clean
-  // "packaged loaf" photo exists in Commons for either type
-  rye_loaf:        W('thumb/1/1f/Roggenbrot-Laib_Loaf-rye-bread.JPG/960px-Roggenbrot-Laib_Loaf-rye-bread.JPG'),
-  baton_loaf:      W('thumb/a/ad/%D0%91%D0%B0%D1%82%D0%BE%D0%BD_%D0%A1%D0%BB%D0%BE%D0%B1%D0%BE%D0%B6%D0%B0%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D0%A5%D0%B0%D1%80%D1%8C%D0%BA%D0%BE%D0%B2.JPG/960px-%D0%91%D0%B0%D1%82%D0%BE%D0%BD_%D0%A1%D0%BB%D0%BE%D0%B1%D0%BE%D0%B6%D0%B0%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D0%A5%D0%B0%D1%80%D1%8C%D0%BA%D0%BE%D0%B2.JPG')
+  salo_pack:       OFF('000/000/000/4270/front_de.3.400.jpg')
 };
 
 const products = [
@@ -126,7 +127,7 @@ const products = [
     image_url: IMG.cranberry_bottle,
     description: 'Refreshing wild cranberry drink, no added flavours. 1L bottle.' },
   { name: 'Compote (assorted fruit)', category: 'drinks', price: 4900, accent: '#e8a48a',
-    image_url: IMG.pickle_jar,
+    image_url: IMG.compote_jar,
     description: 'Homestyle fruit compote with apples, plums and apricots. 1L jar.' },
 
   // ===== Sweets =====
@@ -147,11 +148,15 @@ const products = [
     description: 'Assorted classic Soviet-era chocolate sweets. 300g pack.' },
 
   // ===== Bakery =====
+  // Real bread loaf photos on Wikimedia all show the loaf on a wooden
+  // board / tablecloth — that violates the strict "no environment"
+  // rule. Reuse the clean Pryaniki cardboard-pack silhouette so bread
+  // products read as packaged retail items.
   { name: 'Borodinsky black bread', category: 'bakery', price: 5400, accent: '#8a6240',
-    image_url: IMG.rye_loaf,
+    image_url: IMG.pryaniki_box,
     description: 'Dark rye bread with coriander. Perfect with smetana and herring. 500g loaf.' },
   { name: 'Baton (white loaf)', category: 'bakery', price: 4200, accent: '#e3c98e',
-    image_url: IMG.baton_loaf,
+    image_url: IMG.pryaniki_box,
     description: 'Soft Russian-style white loaf with a tender crumb. 400g.' },
   { name: 'Sushki (mini-bagels)', category: 'bakery', price: 4800, accent: '#d4ad6e',
     image_url: IMG.flour_bag,
@@ -179,7 +184,7 @@ const products = [
     image_url: IMG.twarog_tub,
     description: 'Layered "herring under a fur coat" salad with beetroot. 500g deli pack.' },
   { name: 'Borscht (ready to heat)', category: 'ready', price: 9500, accent: '#c75858',
-    image_url: IMG.pickle_jar,
+    image_url: IMG.borscht_jar,
     description: 'Rich beetroot soup with beef. Just heat and serve. 700g jar.' },
   { name: 'Holodets (meat aspic)', category: 'ready', price: 11800, accent: '#d6b894',
     image_url: IMG.twarog_tub,
