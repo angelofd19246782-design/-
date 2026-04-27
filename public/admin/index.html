@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orders — Raduga staff</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/admin.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌈%3C/text%3E%3C/svg%3E" />
+</head>
+<body class="admin-body">
+  <header class="admin-header">
+    <div class="admin-header-inner">
+      <a href="/admin" class="brand">
+        <span class="brand-mark">🌈</span>
+        <span class="brand-text">
+          <span class="brand-name">Raduga</span>
+          <span class="brand-sub">Staff dashboard</span>
+        </span>
+      </a>
+      <div class="admin-header-meta">
+        <span id="whoami" class="muted">…</span>
+        <button class="btn btn-ghost btn-sm" id="refreshBtn">Refresh</button>
+        <button class="btn btn-ghost btn-sm" id="logoutBtn">Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section class="admin-side">
+      <div class="admin-side-head">
+        <h2>Orders</h2>
+        <div class="admin-filters" id="adminFilters">
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip" data-filter="new">New</button>
+          <button class="chip" data-filter="collecting">Collecting</button>
+          <button class="chip" data-filter="on_the_way">On the way</button>
+          <button class="chip" data-filter="delivered">Delivered</button>
+        </div>
+      </div>
+      <div class="state" id="ordersLoading">Loading…</div>
+      <div class="state state-error" id="ordersError" hidden>Could not load orders.</div>
+      <div class="state" id="ordersEmpty" hidden>No orders to show.</div>
+      <ul class="orders-list" id="ordersList"></ul>
+    </section>
+
+    <section class="admin-detail" id="adminDetail">
+      <div class="state state-placeholder">
+        <div class="placeholder-icon">📦</div>
+        <p>Select an order to see details and update its status.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>

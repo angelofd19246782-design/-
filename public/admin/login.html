@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff login — Raduga</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/admin.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌈%3C/text%3E%3C/svg%3E" />
+</head>
+<body class="admin-body admin-login-body">
+  <main class="admin-login">
+    <a href="/" class="brand">
+      <span class="brand-mark">🌈</span>
+      <span class="brand-text">
+        <span class="brand-name">Raduga</span>
+        <span class="brand-sub">Staff portal</span>
+      </span>
+    </a>
+
+    <form class="admin-login-card" id="loginForm" novalidate>
+      <h1>Sign in</h1>
+      <p class="muted">Enter your staff credentials to manage incoming orders.</p>
+
+      <label class="field">
+        <span>Username</span>
+        <input name="username" type="text" autocomplete="username" required />
+      </label>
+      <label class="field">
+        <span>Password</span>
+        <input name="password" type="password" autocomplete="current-password" required />
+      </label>
+
+      <button class="btn btn-primary btn-block" type="submit" id="loginBtn">Sign in</button>
+      <div class="form-error" id="loginError" hidden></div>
+
+      <a class="back-link" href="/">← Back to store</a>
+    </form>
+  </main>
+
+  <script src="/js/admin-login.js"></script>
+</body>
+</html>

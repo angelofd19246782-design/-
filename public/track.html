@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Track your order — Raduga</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌈%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="brand">
+        <span class="brand-mark">🌈</span>
+        <span class="brand-text">
+          <span class="brand-name">Raduga</span>
+          <span class="brand-sub">CIS food store · Korea</span>
+        </span>
+      </a>
+      <nav class="nav">
+        <a href="/" class="nav-link">Catalog</a>
+        <a href="/track" class="nav-link active">Track order</a>
+        <a href="/admin/login" class="nav-link nav-link-muted">Staff</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container track-page">
+    <section class="track-card">
+      <h1>Track your order</h1>
+      <p class="muted">Enter the order number from the confirmation screen and the phone number you used at checkout.</p>
+
+      <form class="track-form" id="trackForm" novalidate>
+        <label class="field">
+          <span>Order number</span>
+          <input name="orderNumber" type="text" required placeholder="R250427-1234" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span>Phone number</span>
+          <input name="phone" type="tel" required placeholder="010-1234-5678" />
+        </label>
+        <button class="btn btn-primary btn-block" type="submit" id="trackBtn">Find my order</button>
+        <div class="form-error" id="trackError" hidden></div>
+      </form>
+    </section>
+
+    <section class="track-result" id="trackResult" hidden>
+      <header class="track-result-header">
+        <div>
+          <span class="muted">Order</span>
+          <h2 id="resOrderNumber">—</h2>
+        </div>
+        <div class="eta-badge">
+          <span class="muted">ETA</span>
+          <strong id="resEta">—</strong>
+        </div>
+      </header>
+
+      <ol class="status-track" id="statusTrack">
+        <li data-status="new"><span class="dot"></span><span>New order</span></li>
+        <li data-status="collecting"><span class="dot"></span><span>Collecting</span></li>
+        <li data-status="on_the_way"><span class="dot"></span><span>On the way</span></li>
+        <li data-status="delivered"><span class="dot"></span><span>Delivered</span></li>
+      </ol>
+
+      <div class="track-grid">
+        <div>
+          <h3>Delivery</h3>
+          <p id="resAddress">—</p>
+          <p class="muted" id="resPayment">—</p>
+        </div>
+        <div>
+          <h3>Items</h3>
+          <ul class="track-items" id="resItems"></ul>
+          <div class="cart-total"><span>Total</span><strong id="resTotal">—</strong></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <div class="brand small">
+          <span class="brand-mark">🌈</span>
+          <span class="brand-name">Raduga</span>
+        </div>
+        <p>Real food from home, hand-picked for our community in Korea.</p>
+      </div>
+      <div class="footer-meta">
+        <p>© <span id="year"></span> Raduga · 무지개 마트</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/track.js"></script>
+</body>
+</html>

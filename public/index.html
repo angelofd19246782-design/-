@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Raduga — CIS Food Store · Korea</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌈%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="brand">
+        <span class="brand-mark">🌈</span>
+        <span class="brand-text">
+          <span class="brand-name">Raduga</span>
+          <span class="brand-sub">CIS food store · Korea</span>
+        </span>
+      </a>
+
+      <nav class="nav">
+        <a href="/" class="nav-link active">Catalog</a>
+        <a href="/track" class="nav-link">Track order</a>
+        <a href="/admin/login" class="nav-link nav-link-muted">Staff</a>
+      </nav>
+
+      <button class="cart-button" id="cartButton" aria-label="Open cart">
+        <span class="cart-icon">🛒</span>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <span class="hero-eyebrow">Доставка по Корее</span>
+        <h1>A taste of home,<br />delivered fresh.</h1>
+        <p>Pelmeni, smetana, Borodinsky, kvass and everything else you miss — sourced for the CIS community in Korea and brought to your door in 30–90 minutes.</p>
+        <div class="hero-actions">
+          <a href="#catalog" class="btn btn-primary">Shop catalog</a>
+          <a href="/track" class="btn btn-ghost">Track my order</a>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="hero-tile" style="--accent:#e57676">🍫</div>
+        <div class="hero-tile" style="--accent:#9bc7ff">🥟</div>
+        <div class="hero-tile" style="--accent:#caa472">🌾</div>
+        <div class="hero-tile" style="--accent:#7dbef0">💧</div>
+        <div class="hero-tile" style="--accent:#8a6240">🍞</div>
+        <div class="hero-tile" style="--accent:#d6b04c">🌻</div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container" id="catalog">
+    <div class="catalog-toolbar">
+      <div class="search">
+        <span class="search-icon">🔍</span>
+        <input type="search" id="searchInput" placeholder="Search for pelmeni, kvass, smetana…" />
+      </div>
+      <div class="categories" id="categories"></div>
+    </div>
+
+    <div class="state" id="loadingState">Loading products…</div>
+    <div class="state state-error" id="errorState" hidden>Could not load products. Please refresh the page.</div>
+    <div class="state" id="emptyState" hidden>No products match your search.</div>
+
+    <section class="grid" id="productGrid"></section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <div class="brand small">
+          <span class="brand-mark">🌈</span>
+          <span class="brand-name">Raduga</span>
+        </div>
+        <p>Real food from home, hand-picked for our community in Korea.</p>
+      </div>
+      <div class="footer-meta">
+        <p>Cash · Bank transfer · Card on delivery</p>
+        <p>© <span id="year"></span> Raduga · 무지개 마트</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart drawer -->
+  <aside class="cart" id="cart" aria-hidden="true">
+    <div class="cart-header">
+      <h2>Your cart</h2>
+      <button class="icon-btn" id="cartClose" aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart-body" id="cartBody">
+      <div class="cart-empty" id="cartEmpty">
+        <div class="cart-empty-icon">🛍️</div>
+        <p>Your cart is empty.</p>
+        <p class="muted">Add a few items from the catalog to get started.</p>
+      </div>
+      <ul class="cart-list" id="cartList"></ul>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total</span>
+        <strong id="cartTotal">₩ 0</strong>
+      </div>
+      <button class="btn btn-primary btn-block" id="checkoutBtn" disabled>Checkout</button>
+    </div>
+  </aside>
+  <div class="scrim" id="scrim" hidden></div>
+
+  <!-- Checkout modal -->
+  <div class="modal" id="checkoutModal" hidden>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Checkout</h2>
+        <button class="icon-btn" id="checkoutClose" aria-label="Close checkout">✕</button>
+      </div>
+      <form class="modal-body" id="checkoutForm" novalidate>
+        <label class="field">
+          <span>Full name</span>
+          <input name="name" type="text" required minlength="2" maxlength="80" placeholder="Anna Ivanova" />
+        </label>
+        <label class="field">
+          <span>Phone number</span>
+          <input name="phone" type="tel" required minlength="7" maxlength="20" placeholder="010-1234-5678" />
+        </label>
+        <label class="field">
+          <span>Delivery address</span>
+          <textarea name="address" required minlength="5" maxlength="400" rows="2" placeholder="서울시 강남구 ..."></textarea>
+        </label>
+
+        <fieldset class="payment">
+          <legend>Payment method</legend>
+          <label class="payment-option">
+            <input type="radio" name="payment" value="cash" checked />
+            <span class="payment-label"><span>💵</span> Cash on delivery</span>
+          </label>
+          <label class="payment-option">
+            <input type="radio" name="payment" value="transfer" />
+            <span class="payment-label"><span>🏦</span> Bank transfer</span>
+          </label>
+          <label class="payment-option">
+            <input type="radio" name="payment" value="card" />
+            <span class="payment-label"><span>💳</span> Card on delivery</span>
+          </label>
+        </fieldset>
+
+        <div class="checkout-summary" id="checkoutSummary"></div>
+
+        <div class="form-error" id="checkoutError" hidden></div>
+
+        <button type="submit" class="btn btn-primary btn-block" id="placeOrderBtn">Place order</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Success modal -->
+  <div class="modal" id="successModal" hidden>
+    <div class="modal-card success-card">
+      <div class="success-icon">✅</div>
+      <h2>Order placed!</h2>
+      <p class="muted">Thank you. We have received your order and will get in touch shortly.</p>
+      <div class="success-row"><span>Order number</span><strong id="successNumber">—</strong></div>
+      <div class="success-row"><span>Status</span><strong id="successStatus">New</strong></div>
+      <div class="success-row"><span>ETA</span><strong id="successEta">—</strong></div>
+      <div class="success-row"><span>Total</span><strong id="successTotal">—</strong></div>
+      <div class="success-actions">
+        <a href="/track" class="btn btn-primary btn-block" id="successTrack">Track this order</a>
+        <button class="btn btn-ghost btn-block" id="successContinue">Continue shopping</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/catalog.js"></script>
+</body>
+</html>
