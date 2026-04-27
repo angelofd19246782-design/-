@@ -180,6 +180,47 @@ html:not(.has-reveal) .reveal { opacity: 1; transform: none; }
 }
 .nav-link-muted { color: var(--muted); font-weight: 500; }
 
+.header-actions {
+  display: inline-flex; align-items: center; gap: 10px;
+  flex-shrink: 0;
+}
+
+.lang-switch {
+  display: inline-flex;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px;
+  box-shadow: var(--shadow-xs);
+}
+.lang-switch button {
+  padding: 6px 11px;
+  border: 0;
+  background: transparent;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  font-family: var(--font-display);
+  cursor: pointer;
+  letter-spacing: .4px;
+  transition: color .15s, background .15s, box-shadow .15s, transform .12s;
+  line-height: 1;
+}
+.lang-switch button:hover { color: var(--ink); }
+.lang-switch button.active {
+  background: var(--ink);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(20, 20, 28, .18);
+}
+.lang-switch button:active:not(.active) { transform: scale(.96); }
+
+/* Floating switcher (used on admin login where there's no header) */
+.lang-switch-floating {
+  position: fixed; top: 18px; right: 18px;
+  z-index: 70;
+}
+
 .cart-button {
   position: relative; width: 46px; height: 46px;
   border: 1px solid var(--line); background: var(--surface); border-radius: 14px;

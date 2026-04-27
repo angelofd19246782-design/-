@@ -4,42 +4,39 @@
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => Array.from(document.querySelectorAll(s));
   const fmtKRW = (n) => '₩ ' + Number(n).toLocaleString('ko-KR');
+  const t = (k, p, f) => (window.RadugaI18n ? window.RadugaI18n.t(k, p, f) : (f || k));
 
-  const STATUS_LABELS = {
-    new: 'New',
-    collecting: 'Collecting',
-    on_the_way: 'On the way',
-    delivered: 'Delivered'
-  };
-  const PAYMENT_LABELS = {
-    cash: 'Cash on delivery',
-    transfer: 'Bank transfer',
-    card: 'Card on delivery'
-  };
+  const STATUS_FLOW = ['new', 'collecting', 'on_the_way', 'delivered'];
   const NEXT_STATUS = {
-    new: { value: 'collecting', label: 'Start collecting' },
-    collecting: { value: 'on_the_way', label: 'Mark as on the way' },
-    on_the_way: { value: 'delivered', label: 'Mark as delivered' }
+    new:        { value: 'collecting', labelKey: 'admin.startCollecting' },
+    collecting: { value: 'on_the_way',  labelKey: 'admin.markOnTheWay' },
+    on_the_way: { value: 'delivered',   labelKey: 'admin.markDelivered' }
   };
+  const statusLabel = (s) => t('status.' + (s === 'new' ? 'newShort' : s), null, s);
+  const paymentLabel = (m) => t('checkout.' + m, null, m);
 
   function statusPill(status) {
     const I = window.RadugaIcons;
     const iconName = I && I.statusIcons[status];
     const icon = iconName ? `<span class="status-icon">${I.get(iconName)}</span>` : '';
-    return `<span class="status-pill ${status}">${icon}${STATUS_LABELS[status] || status}</span>`;
+    return `<span class="status-pill ${status}">${icon}${statusLabel(status)}</span>`;
   }
 
   const state = {
     orders: [],
     filter: 'all',
-    selectedId: null
+    selectedId: null,
+    selectedDetail: null  // cache last loaded detail so we can re-render on lang switch
   };
 
   // ---------- Auth check ----------
   fetch('/api/admin/me').then(async (r) => {
     const j = await r.json().catch(() => ({}));
     if (!j.authenticated) location.href = '/admin/login';
-    else $('#whoami').textContent = j.name ? `Hi, ${j.name}` : '';
+    else {
+      state.userName = j.name || '';
+      $('#whoami').textContent = j.name ? t('admin.whoami', { name: j.name }) : '';
+    }
   });
 
   // ---------- Filters ----------
@@ -93,7 +90,6 @@
     for (const o of state.orders) {
       if (counts[o.status] !== undefined) counts[o.status] += 1;
       if (o.status === 'delivered') {
-        // SQLite created_at is UTC ('YYYY-MM-DD HH:MM:SS'); compare in local TZ
         const d = new Date(String(o.updated_at || o.created_at).replace(' ', 'T') + 'Z');
         if (d.toLocaleDateString('en-CA') === todayLocal) counts.delivered_today += 1;
       }
@@ -139,16 +135,15 @@
 
   function relativeTime(sqlIso) {
     if (!sqlIso) return '';
-    // SQLite 'YYYY-MM-DD HH:MM:SS' is in UTC
     const d = new Date(sqlIso.replace(' ', 'T') + 'Z');
     const diff = Date.now() - d.getTime();
     const mins = Math.floor(diff / 60000);
-    if (mins < 1) return 'just now';
-    if (mins < 60) return `${mins} min ago`;
+    if (mins < 1) return t('time.justNow');
+    if (mins < 60) return t('time.minAgo', { n: mins });
     const hours = Math.floor(mins / 60);
-    if (hours < 24) return `${hours} h ago`;
+    if (hours < 24) return t('time.hAgo', { n: hours });
     const days = Math.floor(hours / 24);
-    if (days < 7) return `${days} d ago`;
+    if (days < 7) return t('time.dAgo', { n: days });
     return d.toLocaleDateString();
   }
 
@@ -157,15 +152,20 @@
     state.selectedId = id;
     $$('.order-row').forEach((r) => r.classList.remove('active'));
     renderOrders();
-    detailEl.innerHTML = '<div class="state">Loading order…</div>';
+    detailEl.innerHTML = `<div class="state">${escapeHtml(t('admin.loadingOrder'))}</div>`;
     try {
       const res = await fetch(`/api/admin/orders/${id}`);
       if (!res.ok) throw new Error();
       const data = await res.json();
+      state.selectedDetail = { order: data.order, items: data.items || [] };
       renderDetail(data.order, data.items || []);
     } catch {
-      detailEl.innerHTML = '<div class="state state-error">Could not load order.</div>';
+      detailEl.innerHTML = `<div class="state state-error">${escapeHtml(t('admin.loadFailed'))}</div>`;
     }
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
   function renderDetail(o, items) {
@@ -179,10 +179,14 @@
       </li>
     `).join('');
 
+    const etaText = o.status === 'delivered'
+      ? t('common.delivered')
+      : t('common.etaRange', { min: o.eta_min, max: o.eta_max });
+
     detailEl.innerHTML = `
       <div class="detail-head">
         <div>
-          <span class="muted">Order</span>
+          <span class="muted">${escapeHtml(t('admin.detailOrder'))}</span>
           <h2></h2>
           <span class="muted detail-time"></span>
         </div>
@@ -191,35 +195,35 @@
 
       <div class="detail-grid">
         <div class="detail-block">
-          <h3>Customer</h3>
+          <h3>${escapeHtml(t('admin.detailCustomer'))}</h3>
           <p class="detail-customer"></p>
           <p class="muted detail-phone"></p>
         </div>
         <div class="detail-block">
-          <h3>Delivery</h3>
+          <h3>${escapeHtml(t('admin.detailDelivery'))}</h3>
           <p class="detail-address"></p>
         </div>
         <div class="detail-block">
-          <h3>Payment</h3>
-          <p>${PAYMENT_LABELS[o.payment_method] || o.payment_method}</p>
+          <h3>${escapeHtml(t('admin.detailPayment'))}</h3>
+          <p>${escapeHtml(paymentLabel(o.payment_method))}</p>
         </div>
         <div class="detail-block">
-          <h3>ETA</h3>
-          <p>${o.status === 'delivered' ? 'Delivered' : `${o.eta_min}–${o.eta_max} min`}</p>
+          <h3>${escapeHtml(t('admin.detailEta'))}</h3>
+          <p>${escapeHtml(etaText)}</p>
         </div>
       </div>
 
       <div class="detail-items">
-        <h3>Items</h3>
+        <h3>${escapeHtml(t('admin.detailItems'))}</h3>
         <ul>${itemsHtml}</ul>
       </div>
 
-      <div class="detail-total"><span>Total</span><strong>${fmtKRW(o.total)}</strong></div>
+      <div class="detail-total"><span>${escapeHtml(t('admin.detailTotal'))}</span><strong>${fmtKRW(o.total)}</strong></div>
 
       <div class="detail-actions">
-        ${next ? `<button class="btn btn-primary" data-next="${next.value}">${next.label}</button>` : ''}
-        ${o.status !== 'delivered' && o.status !== 'new' ? `<button class="btn btn-ghost" data-next="new">Reset to new</button>` : ''}
-        ${o.status === 'delivered' ? `<button class="btn btn-ghost" disabled>Order completed</button>` : ''}
+        ${next ? `<button class="btn btn-primary" data-next="${next.value}">${escapeHtml(t(next.labelKey))}</button>` : ''}
+        ${o.status !== 'delivered' && o.status !== 'new' ? `<button class="btn btn-ghost" data-next="new">${escapeHtml(t('admin.resetNew'))}</button>` : ''}
+        ${o.status === 'delivered' ? `<button class="btn btn-ghost" disabled>${escapeHtml(t('admin.completed'))}</button>` : ''}
       </div>
     `;
 
@@ -236,7 +240,7 @@
     detailEl.querySelectorAll('[data-next]').forEach((btn) => {
       btn.addEventListener('click', async () => {
         const status = btn.dataset.next;
-        btn.disabled = true; btn.textContent = 'Updating…';
+        btn.disabled = true; btn.textContent = t('admin.updating');
         try {
           const res = await fetch(`/api/admin/orders/${o.id}/status`, {
             method: 'PATCH',
@@ -246,14 +250,20 @@
           if (!res.ok) throw new Error();
           await loadOrders();
         } catch {
-          btn.disabled = false; btn.textContent = 'Update failed — retry';
+          btn.disabled = false; btn.textContent = t('admin.retry');
         }
       });
     });
   }
 
+  // ---------- React to language switch ----------
+  document.addEventListener('i18n:changed', () => {
+    if (state.userName) $('#whoami').textContent = t('admin.whoami', { name: state.userName });
+    renderOrders();
+    if (state.selectedDetail) renderDetail(state.selectedDetail.order, state.selectedDetail.items);
+  });
+
   // ---------- Init ----------
   loadOrders();
-  // Light polling so the dashboard reflects new orders without a manual refresh
   setInterval(loadOrders, 30000);
 })();

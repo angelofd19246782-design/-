@@ -3,6 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    (function () {
+      try {
+        var l = localStorage.getItem('raduga.lang');
+        if (l === 'ru' || l === 'en') document.documentElement.lang = l;
+      } catch (_) {}
+    })();
+  </script>
   <title>Orders — Raduga staff</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,16 +26,22 @@
         <span class="brand-mark"><img src="/images/raduga-logo.svg" alt="" /></span>
         <span class="brand-text">
           <span class="brand-name">Raduga</span>
-          <span class="brand-sub">Staff dashboard</span>
+          <span class="brand-sub" data-i18n="brand.subDashboard">Staff dashboard</span>
         </span>
       </a>
       <div class="admin-header-meta">
         <span id="whoami" class="muted">…</span>
+        <div class="lang-switch" role="group" data-i18n-aria="aria.language" aria-label="Language">
+          <button type="button" data-lang="en">EN</button>
+          <button type="button" data-lang="ru">RU</button>
+        </div>
         <button class="btn btn-ghost btn-sm icon-leading" id="refreshBtn">
-          <span class="btn-icon" data-icon="refresh"></span> Refresh
+          <span class="btn-icon" data-icon="refresh"></span>
+          <span data-i18n="admin.refresh">Refresh</span>
         </button>
         <button class="btn btn-ghost btn-sm icon-leading" id="logoutBtn">
-          <span class="btn-icon" data-icon="logout"></span> Sign out
+          <span class="btn-icon" data-icon="logout"></span>
+          <span data-i18n="admin.signOut">Sign out</span>
         </button>
       </div>
     </div>
@@ -36,48 +50,49 @@
   <section class="admin-stats" id="adminStats">
     <div class="stat-card">
       <span class="stat-icon new" data-icon="bell"></span>
-      <span class="stat-text"><strong id="statNew">—</strong><span>New orders</span></span>
+      <span class="stat-text"><strong id="statNew">—</strong><span data-i18n="admin.statNew">New orders</span></span>
     </div>
     <div class="stat-card">
       <span class="stat-icon collecting" data-icon="package"></span>
-      <span class="stat-text"><strong id="statCollecting">—</strong><span>Collecting</span></span>
+      <span class="stat-text"><strong id="statCollecting">—</strong><span data-i18n="admin.statCollecting">Collecting</span></span>
     </div>
     <div class="stat-card">
       <span class="stat-icon on_the_way" data-icon="truck"></span>
-      <span class="stat-text"><strong id="statOnTheWay">—</strong><span>On the way</span></span>
+      <span class="stat-text"><strong id="statOnTheWay">—</strong><span data-i18n="admin.statOnTheWay">On the way</span></span>
     </div>
     <div class="stat-card">
       <span class="stat-icon delivered" data-icon="check-circle"></span>
-      <span class="stat-text"><strong id="statDelivered">—</strong><span>Delivered today</span></span>
+      <span class="stat-text"><strong id="statDelivered">—</strong><span data-i18n="admin.statDelivered">Delivered today</span></span>
     </div>
   </section>
 
   <main class="admin-main">
     <section class="admin-side">
       <div class="admin-side-head">
-        <h2>Orders</h2>
+        <h2 data-i18n="admin.orders">Orders</h2>
         <div class="admin-filters" id="adminFilters">
-          <button class="chip active" data-filter="all">All</button>
-          <button class="chip" data-filter="new">New</button>
-          <button class="chip" data-filter="collecting">Collecting</button>
-          <button class="chip" data-filter="on_the_way">On the way</button>
-          <button class="chip" data-filter="delivered">Delivered</button>
+          <button class="chip active" data-filter="all" data-i18n="statusFilter.all">All</button>
+          <button class="chip" data-filter="new" data-i18n="statusFilter.new">New</button>
+          <button class="chip" data-filter="collecting" data-i18n="statusFilter.collecting">Collecting</button>
+          <button class="chip" data-filter="on_the_way" data-i18n="statusFilter.on_the_way">On the way</button>
+          <button class="chip" data-filter="delivered" data-i18n="statusFilter.delivered">Delivered</button>
         </div>
       </div>
-      <div class="state" id="ordersLoading">Loading…</div>
-      <div class="state state-error" id="ordersError" hidden>Could not load orders.</div>
-      <div class="state" id="ordersEmpty" hidden>No orders to show.</div>
+      <div class="state" id="ordersLoading" data-i18n="admin.ordersLoading">Loading…</div>
+      <div class="state state-error" id="ordersError" data-i18n="admin.ordersError" hidden>Could not load orders.</div>
+      <div class="state" id="ordersEmpty" data-i18n="admin.ordersEmpty" hidden>No orders to show.</div>
       <ul class="orders-list" id="ordersList"></ul>
     </section>
 
     <section class="admin-detail" id="adminDetail">
       <div class="state state-placeholder">
         <div class="placeholder-icon" data-icon="package"></div>
-        <p>Select an order to see details and update its status.</p>
+        <p data-i18n="admin.placeholder">Select an order to see details and update its status.</p>
       </div>
     </section>
   </main>
 
+  <script src="/js/i18n.js"></script>
   <script src="/js/icons.js"></script>
   <script src="/js/admin.js"></script>
 </body>

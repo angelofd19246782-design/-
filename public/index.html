@@ -3,6 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set html lang as early as possible to reduce FOUC of translations */
+    (function () {
+      try {
+        var l = localStorage.getItem('raduga.lang');
+        if (l === 'ru' || l === 'en') document.documentElement.lang = l;
+      } catch (_) {}
+    })();
+  </script>
   <title>Raduga — CIS Food Store · Korea</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,53 +26,59 @@
         <span class="brand-mark"><img src="/images/raduga-logo.svg" alt="" /></span>
         <span class="brand-text">
           <span class="brand-name">Raduga</span>
-          <span class="brand-sub">CIS food store · Korea</span>
+          <span class="brand-sub" data-i18n="brand.sub">CIS food store · Korea</span>
         </span>
       </a>
 
       <nav class="nav">
-        <a href="/" class="nav-link active">Catalog</a>
-        <a href="/track" class="nav-link">Track order</a>
-        <a href="/admin/login" class="nav-link nav-link-muted">Staff</a>
+        <a href="/" class="nav-link active" data-i18n="nav.catalog">Catalog</a>
+        <a href="/track" class="nav-link" data-i18n="nav.track">Track order</a>
+        <a href="/admin/login" class="nav-link nav-link-muted" data-i18n="nav.staff">Staff</a>
       </nav>
 
-      <button class="cart-button" id="cartButton" aria-label="Open cart">
-        <span class="cart-icon" data-icon="cart"></span>
-        <span class="cart-count" id="cartCount">0</span>
-      </button>
+      <div class="header-actions">
+        <div class="lang-switch" role="group" data-i18n-aria="aria.language" aria-label="Language">
+          <button type="button" data-lang="en">EN</button>
+          <button type="button" data-lang="ru">RU</button>
+        </div>
+        <button class="cart-button" id="cartButton" data-i18n-aria="aria.cartOpen" aria-label="Open cart">
+          <span class="cart-icon" data-icon="cart"></span>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+      </div>
     </div>
   </header>
 
   <section class="hero">
     <div class="container hero-inner">
       <div class="hero-text reveal">
-        <span class="hero-eyebrow">Доставка по Корее</span>
-        <h1>A taste of <em>home</em>,<br /><span class="accent">delivered fresh.</span></h1>
-        <p>Pelmeni, smetana, Borodinsky, kvass and everything else you miss — sourced for the CIS community in Korea and brought to your door in <strong>30–90 minutes</strong>.</p>
+        <span class="hero-eyebrow" data-i18n="hero.eyebrow">Delivery across Korea</span>
+        <h1 data-i18n-html="hero.title">A taste of <em>home</em>,<br /><span class="accent">delivered fresh.</span></h1>
+        <p data-i18n-html="hero.description">Pelmeni, smetana, Borodinsky, kvass and everything else you miss — sourced for the CIS community in Korea and brought to your door in <strong>30–90 minutes</strong>.</p>
         <div class="hero-actions">
           <a href="#catalog" class="btn btn-primary btn-lg">
-            Shop catalog
+            <span data-i18n="hero.ctaShop">Shop catalog</span>
             <span class="btn-icon" data-icon="arrow"></span>
           </a>
-          <a href="/track" class="btn btn-ghost btn-lg">Track my order</a>
+          <a href="/track" class="btn btn-ghost btn-lg" data-i18n="hero.ctaTrack">Track my order</a>
         </div>
 
         <div class="trust-badges">
           <div class="trust-badge">
             <span class="trust-badge-icon" data-tone="amber" data-icon="clock"></span>
-            <span class="trust-badge-text"><strong>30–90 min</strong><span>Express delivery</span></span>
+            <span class="trust-badge-text"><strong data-i18n="trust.timeTitle">30–90 min</strong><span data-i18n="trust.timeSub">Express delivery</span></span>
           </div>
           <div class="trust-badge">
             <span class="trust-badge-icon" data-tone="blue" data-icon="map-pin"></span>
-            <span class="trust-badge-text"><strong>Korea-wide</strong><span>Seoul · Busan · more</span></span>
+            <span class="trust-badge-text"><strong data-i18n="trust.koreaTitle">Korea-wide</strong><span data-i18n="trust.koreaSub">Seoul · Busan · more</span></span>
           </div>
           <div class="trust-badge">
             <span class="trust-badge-icon" data-icon="basket"></span>
-            <span class="trust-badge-text"><strong>CIS authentic</strong><span>Sourced for you</span></span>
+            <span class="trust-badge-text"><strong data-i18n="trust.cisTitle">CIS authentic</strong><span data-i18n="trust.cisSub">Sourced for you</span></span>
           </div>
           <div class="trust-badge">
             <span class="trust-badge-icon" data-tone="green" data-icon="sparkles"></span>
-            <span class="trust-badge-text"><strong>Fresh daily</strong><span>Restocked every day</span></span>
+            <span class="trust-badge-text"><strong data-i18n="trust.freshTitle">Fresh daily</strong><span data-i18n="trust.freshSub">Restocked every day</span></span>
           </div>
         </div>
       </div>
@@ -86,16 +101,16 @@
           <div class="hero-pill hero-pill-eta">
             <span class="hero-pill-dot"></span>
             <div>
-              <strong>Live now</strong>
-              <span>Avg. delivery 42 min</span>
+              <strong data-i18n="pills.live">Live now</strong>
+              <span data-i18n="pills.liveSub">Avg. delivery 42 min</span>
             </div>
           </div>
 
           <div class="hero-pill hero-pill-fresh">
             <span class="hero-pill-icon" data-icon="sparkles"></span>
             <div>
-              <strong>Fresh today</strong>
-              <span>36 SKUs in stock</span>
+              <strong data-i18n="pills.fresh">Fresh today</strong>
+              <span data-i18n="pills.freshSub">36 SKUs in stock</span>
             </div>
           </div>
         </div>
@@ -106,23 +121,23 @@
   <main class="container" id="catalog">
     <div class="catalog-section-head reveal">
       <div>
-        <span class="section-eyebrow">Catalog</span>
-        <h2>Today's <em>fresh</em> picks</h2>
-        <p>Hand-picked CIS classics — refreshed every morning across eight categories.</p>
+        <span class="section-eyebrow" data-i18n="catalog.eyebrow">Catalog</span>
+        <h2 data-i18n-html="catalog.title">Today's <em>fresh</em> picks</h2>
+        <p data-i18n="catalog.description">Hand-picked CIS classics — refreshed every morning across eight categories.</p>
       </div>
     </div>
 
     <div class="catalog-toolbar reveal">
       <div class="search">
         <span class="search-icon" data-icon="search"></span>
-        <input type="search" id="searchInput" placeholder="Search for pelmeni, kvass, smetana…" />
+        <input type="search" id="searchInput" data-i18n-placeholder="catalog.searchPlaceholder" placeholder="Search for pelmeni, kvass, smetana…" />
       </div>
       <div class="categories" id="categories"></div>
     </div>
 
-    <div class="state" id="loadingState">Loading products…</div>
-    <div class="state state-error" id="errorState" hidden>Could not load products. Please refresh the page.</div>
-    <div class="state" id="emptyState" hidden>No products match your search.</div>
+    <div class="state" id="loadingState" data-i18n="catalog.loading">Loading products…</div>
+    <div class="state state-error" id="errorState" data-i18n="catalog.error" hidden>Could not load products. Please refresh the page.</div>
+    <div class="state" id="emptyState" data-i18n="catalog.empty" hidden>No products match your search.</div>
 
     <section class="grid" id="productGrid"></section>
   </main>
@@ -131,30 +146,30 @@
   <section class="why-section">
     <div class="container">
       <div class="why-head reveal">
-        <span class="section-eyebrow">Why Raduga</span>
-        <h2>Built for our <em>community</em>.</h2>
-        <p>Not a logistics app pretending to be a grocery store. A real CIS deli that delivers — fast, careful and human.</p>
+        <span class="section-eyebrow" data-i18n="why.eyebrow">Why Raduga</span>
+        <h2 data-i18n-html="why.title">Built for our <em>community</em>.</h2>
+        <p data-i18n="why.description">Not a logistics app pretending to be a grocery store. A real CIS deli that delivers — fast, careful and human.</p>
       </div>
       <div class="why-grid">
         <article class="why-card reveal">
           <div class="why-icon" data-tone="amber" data-icon="clock"></div>
-          <h3>Express in 30–90 min</h3>
-          <p>Live route planning across Seoul and major Korean cities — most orders arrive in under an hour.</p>
+          <h3 data-i18n="why.card1Title">Express in 30–90 min</h3>
+          <p data-i18n="why.card1Body">Live route planning across Seoul and major Korean cities — most orders arrive in under an hour.</p>
         </article>
         <article class="why-card reveal">
           <div class="why-icon" data-tone="green" data-icon="sparkles"></div>
-          <h3>Fresh every morning</h3>
-          <p>Dairy, frozen and bakery restocked daily. We never ship anything we wouldn't put on our own table.</p>
+          <h3 data-i18n="why.card2Title">Fresh every morning</h3>
+          <p data-i18n="why.card2Body">Dairy, frozen and bakery restocked daily. We never ship anything we wouldn't put on our own table.</p>
         </article>
         <article class="why-card reveal">
           <div class="why-icon" data-icon="basket"></div>
-          <h3>Authentic CIS sourcing</h3>
-          <p>Direct relationships with importers and producers. Real Borodinsky, real Borjomi, real prices.</p>
+          <h3 data-i18n="why.card3Title">Authentic CIS sourcing</h3>
+          <p data-i18n="why.card3Body">Direct relationships with importers and producers. Real Borodinsky, real Borjomi, real prices.</p>
         </article>
         <article class="why-card reveal">
           <div class="why-icon" data-tone="blue" data-icon="phone"></div>
-          <h3>Human support</h3>
-          <p>A real person picks up. Wrong item, missed time, special request — we make it right, no chatbots.</p>
+          <h3 data-i18n="why.card4Title">Human support</h3>
+          <p data-i18n="why.card4Body">A real person picks up. Wrong item, missed time, special request — we make it right, no chatbots.</p>
         </article>
       </div>
     </div>
@@ -167,43 +182,43 @@
           <span class="brand-mark"><img src="/images/raduga-logo.svg" alt="" /></span>
           <span class="brand-text">
             <span class="brand-name">Raduga</span>
-            <span class="brand-sub">CIS food · Korea</span>
+            <span class="brand-sub" data-i18n="brand.subFooter">CIS food · Korea</span>
           </span>
         </a>
-        <p>A taste of home, delivered fresh across Korea — for the community, by the community.</p>
+        <p data-i18n="footer.tagline">A taste of home, delivered fresh across Korea — for the community, by the community.</p>
       </div>
 
       <div class="footer-col">
-        <h4>Shop</h4>
+        <h4 data-i18n="footer.shop">Shop</h4>
         <ul>
-          <li><a href="#catalog">Catalog</a></li>
-          <li><a href="/track">Track order</a></li>
-          <li><a href="#catalog">Categories</a></li>
+          <li><a href="#catalog" data-i18n="footer.shopCatalog">Catalog</a></li>
+          <li><a href="/track" data-i18n="footer.shopTrack">Track order</a></li>
+          <li><a href="#catalog" data-i18n="footer.shopCategories">Categories</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
-        <h4>Delivery</h4>
+        <h4 data-i18n="footer.delivery">Delivery</h4>
         <ul>
-          <li>30–90 min express</li>
-          <li>Seoul · Busan · Daegu</li>
-          <li>Cash, transfer, card</li>
+          <li data-i18n="footer.delivery1">30–90 min express</li>
+          <li data-i18n="footer.delivery2">Seoul · Busan · Daegu</li>
+          <li data-i18n="footer.delivery3">Cash, transfer, card</li>
         </ul>
       </div>
 
       <div class="footer-col">
-        <h4>Help</h4>
+        <h4 data-i18n="footer.help">Help</h4>
         <ul>
-          <li>Order issue? We make it right.</li>
-          <li>Daily 9:00 – 22:00 KST</li>
-          <li>Staff portal: <a href="/admin/login">login</a></li>
+          <li data-i18n="footer.help1">Order issue? We make it right.</li>
+          <li data-i18n="footer.help2">Daily 9:00 – 22:00 KST</li>
+          <li><span data-i18n="footer.help3Pre">Staff portal:</span> <a href="/admin/login" data-i18n="footer.help3Link">login</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <div class="container footer-bottom-inner">
         <span>© <span id="year"></span> Raduga · 무지개 마트</span>
-        <span>Made with care for the CIS community in Korea.</span>
+        <span data-i18n="footer.bottomCopy">Made with care for the CIS community in Korea.</span>
       </div>
     </div>
   </footer>
@@ -211,24 +226,24 @@
   <!-- Cart drawer -->
   <aside class="cart" id="cart" aria-hidden="true">
     <div class="cart-header">
-      <h2>Your cart</h2>
-      <button class="icon-btn" id="cartClose" aria-label="Close cart" data-icon="x"></button>
+      <h2 data-i18n="cart.title">Your cart</h2>
+      <button class="icon-btn" id="cartClose" data-i18n-aria="aria.cartClose" aria-label="Close cart" data-icon="x"></button>
     </div>
     <div class="cart-body" id="cartBody">
       <div class="cart-empty" id="cartEmpty">
         <div class="cart-empty-icon" data-icon="bag"></div>
-        <p>Your cart is empty.</p>
-        <p class="muted">Add a few items from the catalog to get started.</p>
+        <p data-i18n="cart.empty">Your cart is empty.</p>
+        <p class="muted" data-i18n="cart.emptyHint">Add a few items from the catalog to get started.</p>
       </div>
       <ul class="cart-list" id="cartList"></ul>
     </div>
     <div class="cart-footer">
       <div class="cart-total">
-        <span>Total</span>
+        <span data-i18n="cart.total">Total</span>
         <strong id="cartTotal">₩ 0</strong>
       </div>
-      <button class="btn btn-primary btn-block" id="checkoutBtn" disabled>Proceed to checkout</button>
-      <button class="btn btn-ghost btn-block btn-sm" id="continueShoppingBtn" type="button">Continue shopping</button>
+      <button class="btn btn-primary btn-block" id="checkoutBtn" data-i18n="cart.checkout" disabled>Proceed to checkout</button>
+      <button class="btn btn-ghost btn-block btn-sm" id="continueShoppingBtn" type="button" data-i18n="cart.continue">Continue shopping</button>
     </div>
   </aside>
   <div class="scrim" id="scrim" hidden></div>
@@ -237,36 +252,36 @@
   <div class="modal" id="checkoutModal" hidden>
     <div class="modal-card">
       <div class="modal-header">
-        <h2>Checkout</h2>
-        <button class="icon-btn" id="checkoutClose" aria-label="Close checkout" data-icon="x"></button>
+        <h2 data-i18n="checkout.title">Checkout</h2>
+        <button class="icon-btn" id="checkoutClose" data-i18n-aria="aria.checkoutClose" aria-label="Close checkout" data-icon="x"></button>
       </div>
       <form class="modal-body" id="checkoutForm" novalidate>
         <label class="field">
-          <span>Full name</span>
-          <input name="name" type="text" required minlength="2" maxlength="80" placeholder="Anna Ivanova" />
+          <span data-i18n="checkout.name">Full name</span>
+          <input name="name" type="text" required minlength="2" maxlength="80" data-i18n-placeholder="checkout.namePlaceholder" placeholder="Anna Ivanova" />
         </label>
         <label class="field">
-          <span>Phone number</span>
-          <input name="phone" type="tel" required minlength="7" maxlength="20" placeholder="010-1234-5678" />
+          <span data-i18n="checkout.phone">Phone number</span>
+          <input name="phone" type="tel" required minlength="7" maxlength="20" data-i18n-placeholder="checkout.phonePlaceholder" placeholder="010-1234-5678" />
         </label>
         <label class="field">
-          <span>Delivery address</span>
-          <textarea name="address" required minlength="5" maxlength="400" rows="2" placeholder="서울시 강남구 ..."></textarea>
+          <span data-i18n="checkout.address">Delivery address</span>
+          <textarea name="address" required minlength="5" maxlength="400" rows="2" data-i18n-placeholder="checkout.addressPlaceholder" placeholder="서울시 강남구 ..."></textarea>
         </label>
 
         <fieldset class="payment">
-          <legend>Payment method</legend>
+          <legend data-i18n="checkout.payment">Payment method</legend>
           <label class="payment-option">
             <input type="radio" name="payment" value="cash" checked />
-            <span class="payment-label"><span class="payment-icon" data-icon="banknote"></span> Cash on delivery</span>
+            <span class="payment-label"><span class="payment-icon" data-icon="banknote"></span> <span data-i18n="checkout.cash">Cash on delivery</span></span>
           </label>
           <label class="payment-option">
             <input type="radio" name="payment" value="transfer" />
-            <span class="payment-label"><span class="payment-icon" data-icon="landmark"></span> Bank transfer</span>
+            <span class="payment-label"><span class="payment-icon" data-icon="landmark"></span> <span data-i18n="checkout.transfer">Bank transfer</span></span>
           </label>
           <label class="payment-option">
             <input type="radio" name="payment" value="card" />
-            <span class="payment-label"><span class="payment-icon" data-icon="credit-card"></span> Card on delivery</span>
+            <span class="payment-label"><span class="payment-icon" data-icon="credit-card"></span> <span data-i18n="checkout.card">Card on delivery</span></span>
           </label>
         </fieldset>
 
@@ -274,7 +289,7 @@
 
         <div class="form-error" id="checkoutError" hidden></div>
 
-        <button type="submit" class="btn btn-primary btn-block" id="placeOrderBtn">Place order</button>
+        <button type="submit" class="btn btn-primary btn-block" id="placeOrderBtn" data-i18n="checkout.place">Place order</button>
       </form>
     </div>
   </div>
@@ -283,19 +298,20 @@
   <div class="modal" id="successModal" hidden>
     <div class="modal-card success-card">
       <div class="success-icon" data-icon="check"></div>
-      <h2>Order placed!</h2>
-      <p class="muted">Thank you. We have received your order and will get in touch shortly.</p>
-      <div class="success-row"><span>Order number</span><strong id="successNumber">—</strong></div>
-      <div class="success-row"><span>Status</span><strong id="successStatus">New</strong></div>
-      <div class="success-row"><span>ETA</span><strong id="successEta">—</strong></div>
-      <div class="success-row"><span>Total</span><strong id="successTotal">—</strong></div>
+      <h2 data-i18n="success.title">Order placed!</h2>
+      <p class="muted" data-i18n="success.subtitle">Thank you. We have received your order and will get in touch shortly.</p>
+      <div class="success-row"><span data-i18n="success.orderNumber">Order number</span><strong id="successNumber">—</strong></div>
+      <div class="success-row"><span data-i18n="success.status">Status</span><strong id="successStatus">New</strong></div>
+      <div class="success-row"><span data-i18n="success.eta">ETA</span><strong id="successEta">—</strong></div>
+      <div class="success-row"><span data-i18n="success.total">Total</span><strong id="successTotal">—</strong></div>
       <div class="success-actions">
-        <a href="/track" class="btn btn-primary btn-block" id="successTrack">Track this order</a>
-        <button class="btn btn-ghost btn-block" id="successContinue">Continue shopping</button>
+        <a href="/track" class="btn btn-primary btn-block" id="successTrack" data-i18n="success.track">Track this order</a>
+        <button class="btn btn-ghost btn-block" id="successContinue" data-i18n="success.continue">Continue shopping</button>
       </div>
     </div>
   </div>
 
+  <script src="/js/i18n.js"></script>
   <script src="/js/icons.js"></script>
   <script src="/js/reveal.js"></script>
   <script src="/js/catalog.js"></script>

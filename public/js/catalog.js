@@ -1,17 +1,8 @@
 (function () {
   'use strict';
 
-  const CATEGORIES = [
-    { key: 'all', label: 'All' },
-    { key: 'drinks', label: 'Drinks' },
-    { key: 'sweets', label: 'Sweets' },
-    { key: 'dairy', label: 'Dairy' },
-    { key: 'frozen', label: 'Frozen' },
-    { key: 'bakery', label: 'Bakery' },
-    { key: 'groceries', label: 'Groceries' },
-    { key: 'meat', label: 'Meat & sausages' },
-    { key: 'ready', label: 'Ready food' }
-  ];
+  // Category keys only — labels come from the i18n dict (categories.<key>)
+  const CATEGORY_KEYS = ['all', 'drinks', 'sweets', 'dairy', 'frozen', 'bakery', 'groceries', 'meat', 'ready'];
 
   const STORAGE_KEY = 'raduga.cart';
 
@@ -25,6 +16,7 @@
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
   const fmtKRW = (n) => '₩ ' + Number(n).toLocaleString('ko-KR');
+  const t = (k, p, f) => (window.RadugaI18n ? window.RadugaI18n.t(k, p, f) : (f || k));
 
   document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -41,18 +33,22 @@
 
   // ---------- Render: categories ----------
   const categoriesEl = $('#categories');
-  CATEGORIES.forEach((c) => {
-    const btn = document.createElement('button');
-    btn.className = 'chip' + (c.key === 'all' ? ' active' : '');
-    btn.textContent = c.label;
-    btn.dataset.cat = c.key;
-    btn.addEventListener('click', () => {
-      state.filter = c.key;
-      $$('.categories .chip').forEach((x) => x.classList.toggle('active', x.dataset.cat === c.key));
-      renderProducts();
+  function renderCategories() {
+    categoriesEl.innerHTML = '';
+    CATEGORY_KEYS.forEach((key) => {
+      const btn = document.createElement('button');
+      btn.className = 'chip' + (state.filter === key ? ' active' : '');
+      btn.textContent = t('categories.' + key, null, key);
+      btn.dataset.cat = key;
+      btn.addEventListener('click', () => {
+        state.filter = key;
+        $$('.categories .chip').forEach((x) => x.classList.toggle('active', x.dataset.cat === key));
+        renderProducts();
+      });
+      categoriesEl.appendChild(btn);
     });
-    categoriesEl.appendChild(btn);
-  });
+  }
+  renderCategories();
 
   // ---------- Load products ----------
   const loadingEl = $('#loadingState');
@@ -75,8 +71,7 @@
   }
 
   function categoryLabel(key) {
-    const c = CATEGORIES.find((x) => x.key === key);
-    return c ? c.label : key;
+    return t('categories.' + key, null, key);
   }
 
   function renderProducts() {
@@ -133,6 +128,8 @@
     const body = document.createElement('div');
     body.className = 'card-body';
 
+    // Product name and description come from the DB and stay in the
+    // original language — only UI chrome is translated.
     const name = document.createElement('div');
     name.className = 'card-name';
     name.textContent = p.name;
@@ -150,14 +147,15 @@
 
     const btn = document.createElement('button');
     btn.className = 'add-btn';
-    const inCart = state.cart[p.id] || 0;
-    btn.textContent = inCart > 0 ? `In cart · ${inCart}` : 'Add';
-    if (inCart > 0) btn.classList.add('added');
+    function setAddLabel() {
+      const q = state.cart[p.id] || 0;
+      btn.textContent = q > 0 ? t('catalog.inCart', { n: q }) : t('catalog.add');
+      btn.classList.toggle('added', q > 0);
+    }
+    setAddLabel();
     btn.addEventListener('click', () => {
       addToCart(p.id);
-      const q = state.cart[p.id] || 0;
-      btn.textContent = q > 0 ? `In cart · ${q}` : 'Add';
-      btn.classList.toggle('added', q > 0);
+      setAddLabel();
     });
 
     foot.appendChild(price);
@@ -262,11 +260,11 @@
         </div>
         <div class="cart-controls" style="display:flex;align-items:center;gap:6px;">
           <div class="qty">
-            <button type="button" data-action="dec" aria-label="Decrease">${I.get('minus')}</button>
+            <button type="button" data-action="dec" aria-label="${t('aria.decrease')}">${I.get('minus')}</button>
             <span>${quantity}</span>
-            <button type="button" data-action="inc" aria-label="Increase">${I.get('plus')}</button>
+            <button type="button" data-action="inc" aria-label="${t('aria.increase')}">${I.get('plus')}</button>
           </div>
-          <button type="button" class="remove-btn" data-action="rm" aria-label="Remove">${I.get('trash')}</button>
+          <button type="button" class="remove-btn" data-action="rm" aria-label="${t('aria.remove')}">${I.get('trash')}</button>
         </div>
       `;
       li.querySelector('.cart-info-name').textContent = product.name;
@@ -308,7 +306,7 @@
     const rows = lines.map((l) =>
       `<div class="checkout-summary-row"><span>${escapeHtml(l.product.name)} × ${l.quantity}</span><span>${fmtKRW(l.product.price * l.quantity)}</span></div>`
     );
-    rows.push(`<div class="checkout-summary-row total"><span>Total</span><span>${fmtKRW(cartTotal())}</span></div>`);
+    rows.push(`<div class="checkout-summary-row total"><span>${escapeHtml(t('cart.total'))}</span><span>${fmtKRW(cartTotal())}</span></div>`);
     checkoutSummary.innerHTML = rows.join('');
   }
 
@@ -331,12 +329,12 @@
       items: cartLines().map((l) => ({ productId: l.product.id, quantity: l.quantity }))
     };
 
-    if (!payload.customer.name || payload.customer.name.length < 2) return showCheckoutError('Please enter your name.');
-    if (!payload.customer.phone || payload.customer.phone.replace(/\D/g, '').length < 7) return showCheckoutError('Please enter a valid phone.');
-    if (!payload.customer.address || payload.customer.address.length < 5) return showCheckoutError('Please enter a delivery address.');
+    if (!payload.customer.name || payload.customer.name.length < 2) return showCheckoutError(t('checkout.errName'));
+    if (!payload.customer.phone || payload.customer.phone.replace(/\D/g, '').length < 7) return showCheckoutError(t('checkout.errPhone'));
+    if (!payload.customer.address || payload.customer.address.length < 5) return showCheckoutError(t('checkout.errAddress'));
 
     const btn = $('#placeOrderBtn');
-    btn.disabled = true; btn.textContent = 'Placing…';
+    btn.disabled = true; btn.textContent = t('checkout.placing');
     checkoutError.hidden = true;
 
     try {
@@ -346,7 +344,7 @@
         body: JSON.stringify(payload)
       });
       const json = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(json.error || 'Could not place order.');
+      if (!res.ok) throw new Error(json.error || t('checkout.errGeneric'));
 
       // Success
       state.cart = {};
@@ -356,9 +354,9 @@
       closeCheckout();
       showSuccess(json, payload.customer.phone);
     } catch (err) {
-      showCheckoutError(err.message || 'Could not place order.');
+      showCheckoutError(err.message || t('checkout.errGeneric'));
     } finally {
-      btn.disabled = false; btn.textContent = 'Place order';
+      btn.disabled = false; btn.textContent = t('checkout.place');
     }
   });
 
@@ -369,10 +367,12 @@
 
   // ---------- Success modal ----------
   const successModal = $('#successModal');
+  let lastSuccess = null;
   function showSuccess(order, phone) {
+    lastSuccess = { order, phone };
     $('#successNumber').textContent = order.orderNumber;
-    $('#successStatus').textContent = 'New';
-    $('#successEta').textContent = `${order.eta.min}–${order.eta.max} min`;
+    $('#successStatus').textContent = t('status.newShort');
+    $('#successEta').textContent = t('common.etaRange', { min: order.eta.min, max: order.eta.max });
     $('#successTotal').textContent = fmtKRW(order.total);
     const trackUrl = `/track?orderNumber=${encodeURIComponent(order.orderNumber)}&phone=${encodeURIComponent(phone)}`;
     $('#successTrack').setAttribute('href', trackUrl);
@@ -384,6 +384,15 @@
   });
   successModal.addEventListener('click', (e) => {
     if (e.target === successModal) successModal.hidden = true;
+  });
+
+  // ---------- React to language switching ----------
+  document.addEventListener('i18n:changed', () => {
+    renderCategories();
+    renderProducts();
+    renderCart();
+    if (!checkoutModal.hidden) renderCheckoutSummary();
+    if (!successModal.hidden && lastSuccess) showSuccess(lastSuccess.order, lastSuccess.phone);
   });
 
   // ---------- Init ----------

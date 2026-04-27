@@ -4,6 +4,7 @@
   const form = document.getElementById('loginForm');
   const errorEl = document.getElementById('loginError');
   const btn = document.getElementById('loginBtn');
+  const t = (k, p, f) => (window.RadugaI18n ? window.RadugaI18n.t(k, p, f) : (f || k));
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -13,11 +14,11 @@
     const password = String(data.get('password') || '');
 
     if (!username || !password) {
-      return showError('Please enter username and password.');
+      return showError(t('admin.loginEmpty'));
     }
 
     btn.disabled = true;
-    btn.textContent = 'Signing in…';
+    btn.textContent = t('admin.signingIn');
     try {
       const res = await fetch('/api/admin/login', {
         method: 'POST',
@@ -25,12 +26,12 @@
         body: JSON.stringify({ username, password })
       });
       const json = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(json.error || 'Could not sign in.');
+      if (!res.ok) throw new Error(json.error || t('admin.loginInvalid'));
       location.href = '/admin';
     } catch (err) {
-      showError(err.message || 'Could not sign in.');
+      showError(err.message || t('admin.loginInvalid'));
       btn.disabled = false;
-      btn.textContent = 'Sign in';
+      btn.textContent = t('admin.signIn');
     }
   });
 

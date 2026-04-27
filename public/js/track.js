@@ -4,11 +4,8 @@
   const $ = (s) => document.querySelector(s);
   const fmtKRW = (n) => '₩ ' + Number(n).toLocaleString('ko-KR');
   const STATUS_FLOW = ['new', 'collecting', 'on_the_way', 'delivered'];
-  const PAYMENT_LABELS = {
-    cash: 'Cash on delivery',
-    transfer: 'Bank transfer',
-    card: 'Card on delivery'
-  };
+  const t = (k, p, f) => (window.RadugaI18n ? window.RadugaI18n.t(k, p, f) : (f || k));
+  const paymentLabel = (m) => t('checkout.' + m, null, m);
 
   document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -25,6 +22,8 @@
     form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
   }
 
+  let lastResult = null;
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     errorEl.hidden = true;
@@ -32,22 +31,23 @@
     const orderNumber = String(data.get('orderNumber') || '').trim();
     const phone = String(data.get('phone') || '').trim();
     if (!orderNumber || !phone) {
-      return showError('Please enter both order number and phone.');
+      return showError(t('track.missingFields'));
     }
 
     btn.disabled = true;
-    btn.textContent = 'Looking up…';
+    btn.textContent = t('track.lookup');
     try {
       const res = await fetch(`/api/orders/track?orderNumber=${encodeURIComponent(orderNumber)}&phone=${encodeURIComponent(phone)}`);
       const json = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(json.error || 'Could not find this order.');
+      if (!res.ok) throw new Error(json.error || t('track.notFound'));
+      lastResult = json;
       renderResult(json);
     } catch (err) {
       resultEl.hidden = true;
-      showError(err.message || 'Could not find this order.');
+      showError(err.message || t('track.notFound'));
     } finally {
       btn.disabled = false;
-      btn.textContent = 'Find my order';
+      btn.textContent = t('track.find');
     }
   });
 
@@ -59,12 +59,12 @@
   function renderResult(order) {
     $('#resOrderNumber').textContent = order.orderNumber;
     $('#resAddress').textContent = order.address;
-    $('#resPayment').textContent = PAYMENT_LABELS[order.paymentMethod] || order.paymentMethod;
+    $('#resPayment').textContent = paymentLabel(order.paymentMethod);
 
     if (order.status === 'delivered') {
-      $('#resEta').textContent = 'Delivered';
+      $('#resEta').textContent = t('track.delivered');
     } else {
-      $('#resEta').textContent = `${order.eta.min}–${order.eta.max} min`;
+      $('#resEta').textContent = t('common.etaRange', { min: order.eta.min, max: order.eta.max });
     }
 
     const items = $('#resItems');
@@ -72,6 +72,7 @@
     for (const it of order.items || []) {
       const li = document.createElement('li');
       li.innerHTML = `<span></span><span>${fmtKRW(it.price * it.quantity)}</span>`;
+      // Product name comes from DB and stays as-is
       li.firstElementChild.textContent = `${it.name} × ${it.quantity}`;
       items.appendChild(li);
     }
@@ -88,4 +89,9 @@
 
     resultEl.hidden = false;
   }
+
+  // Re-render localized parts of the result on language switch
+  document.addEventListener('i18n:changed', () => {
+    if (lastResult) renderResult(lastResult);
+  });
 })();
