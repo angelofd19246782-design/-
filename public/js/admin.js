@@ -75,6 +75,7 @@
       const data = await res.json();
       state.orders = data.orders || [];
       loadingEl.hidden = true;
+      renderStats();
       renderOrders();
       if (state.selectedId) {
         const stillThere = state.orders.find((o) => o.id === state.selectedId);
@@ -84,6 +85,24 @@
       loadingEl.hidden = true;
       errorEl.hidden = false;
     }
+  }
+
+  function renderStats() {
+    const counts = { new: 0, collecting: 0, on_the_way: 0, delivered_today: 0 };
+    const todayLocal = new Date().toLocaleDateString('en-CA');
+    for (const o of state.orders) {
+      if (counts[o.status] !== undefined) counts[o.status] += 1;
+      if (o.status === 'delivered') {
+        // SQLite created_at is UTC ('YYYY-MM-DD HH:MM:SS'); compare in local TZ
+        const d = new Date(String(o.updated_at || o.created_at).replace(' ', 'T') + 'Z');
+        if (d.toLocaleDateString('en-CA') === todayLocal) counts.delivered_today += 1;
+      }
+    }
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('statNew', counts.new);
+    set('statCollecting', counts.collecting);
+    set('statOnTheWay', counts.on_the_way);
+    set('statDelivered', counts.delivered_today);
   }
 
   function renderOrders() {

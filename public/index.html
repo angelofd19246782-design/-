@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Raduga — CIS Food Store · Korea</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/main.css" />
   <link rel="icon" href="/images/raduga-logo.svg" type="image/svg+xml" />
 </head>
@@ -35,11 +38,30 @@
     <div class="container hero-inner">
       <div class="hero-text">
         <span class="hero-eyebrow">Доставка по Корее</span>
-        <h1>A taste of home,<br />delivered fresh.</h1>
+        <h1>A taste of home,<br /><span class="accent">delivered fresh.</span></h1>
         <p>Pelmeni, smetana, Borodinsky, kvass and everything else you miss — sourced for the CIS community in Korea and brought to your door in 30–90 minutes.</p>
         <div class="hero-actions">
           <a href="#catalog" class="btn btn-primary">Shop catalog</a>
           <a href="/track" class="btn btn-ghost">Track my order</a>
+        </div>
+
+        <div class="trust-badges">
+          <div class="trust-badge">
+            <span class="trust-badge-icon" data-tone="amber" data-icon="clock"></span>
+            <span class="trust-badge-text"><strong>30–90 min</strong><span>Express delivery</span></span>
+          </div>
+          <div class="trust-badge">
+            <span class="trust-badge-icon" data-tone="blue" data-icon="map-pin"></span>
+            <span class="trust-badge-text"><strong>Korea-wide</strong><span>Seoul · Busan · more</span></span>
+          </div>
+          <div class="trust-badge">
+            <span class="trust-badge-icon" data-icon="basket"></span>
+            <span class="trust-badge-text"><strong>CIS authentic</strong><span>Sourced for you</span></span>
+          </div>
+          <div class="trust-badge">
+            <span class="trust-badge-icon" data-tone="green" data-icon="sparkles"></span>
+            <span class="trust-badge-text"><strong>Fresh daily</strong><span>Restocked every day</span></span>
+          </div>
         </div>
       </div>
       <div class="hero-art" aria-hidden="true">
@@ -54,6 +76,13 @@
   </section>
 
   <main class="container" id="catalog">
+    <div class="catalog-section-head">
+      <div>
+        <h2>Today's catalog</h2>
+        <p>Hand-picked CIS classics — refreshed every morning.</p>
+      </div>
+    </div>
+
     <div class="catalog-toolbar">
       <div class="search">
         <span class="search-icon" data-icon="search"></span>

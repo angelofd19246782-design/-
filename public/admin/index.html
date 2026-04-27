@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Orders — Raduga staff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/main.css" />
   <link rel="stylesheet" href="/css/admin.css" />
   <link rel="icon" href="/images/raduga-logo.svg" type="image/svg+xml" />
@@ -29,6 +32,25 @@
       </div>
     </div>
   </header>
+
+  <section class="admin-stats" id="adminStats">
+    <div class="stat-card">
+      <span class="stat-icon new" data-icon="bell"></span>
+      <span class="stat-text"><strong id="statNew">—</strong><span>New orders</span></span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon collecting" data-icon="package"></span>
+      <span class="stat-text"><strong id="statCollecting">—</strong><span>Collecting</span></span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon on_the_way" data-icon="truck"></span>
+      <span class="stat-text"><strong id="statOnTheWay">—</strong><span>On the way</span></span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon delivered" data-icon="check-circle"></span>
+      <span class="stat-text"><strong id="statDelivered">—</strong><span>Delivered today</span></span>
+    </div>
+  </section>
 
   <main class="admin-main">
     <section class="admin-side">
