@@ -98,6 +98,38 @@
     return /\.(jpe?g|png|webp|avif|gif)(\?|$)/i.test(String(url || ''));
   }
 
+  function isPlaceholder(url) {
+    return !url || url === 'placeholder';
+  }
+
+  // Build a clean white-bg placeholder SVG with the product name and a
+  // DEMO IMAGE watermark. Used when no licensed brand photo is available.
+  // The data: URL is fully self-contained — no file lookup, no network.
+  function placeholderSVG(name, accent) {
+    const a = (accent || '#71717a').slice(0, 7);
+    const txt = String(name || '').replace(/[<>&"']/g, '');
+    // Split into max 2 lines, balanced near 18 chars
+    const words = txt.split(/\s+/).filter(Boolean);
+    let l1 = words[0] || '', l2 = '', i = 1;
+    while (i < words.length && (l1 + ' ' + words[i]).length <= 18) {
+      l1 += ' ' + words[i++];
+    }
+    l2 = words.slice(i).join(' ');
+    if (l1.length > 22) l1 = l1.slice(0, 21) + '…';
+    if (l2.length > 24) l2 = l2.slice(0, 23) + '…';
+    const svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">' +
+        '<rect width="400" height="400" fill="#fafafa"/>' +
+        '<circle cx="200" cy="200" r="160" fill="' + a + '" fill-opacity="0.10"/>' +
+        '<rect x="92" y="118" width="216" height="164" rx="14" fill="#ffffff" stroke="' + a + '" stroke-width="2"/>' +
+        '<rect x="94" y="120" width="212" height="22" rx="12" fill="' + a + '" fill-opacity="0.55"/>' +
+        '<text x="200" y="' + (l2 ? 195 : 208) + '" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="16" font-weight="700" fill="#1a1a1f">' + l1 + '</text>' +
+        (l2 ? '<text x="200" y="220" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="14" font-weight="500" fill="#52525b">' + l2 + '</text>' : '') +
+        '<text x="200" y="345" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="9" font-weight="700" letter-spacing="3" fill="#9ca3af">DEMO IMAGE</text>' +
+      '</svg>';
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+  }
+
   function productCard(p) {
     const card = document.createElement('article');
     card.className = 'card';
@@ -107,10 +139,15 @@
     art.style.setProperty('--accent-color', p.accent || 'var(--accent)');
 
     const img = document.createElement('img');
-    img.src = p.image_url || '/images/products/bag.svg';
+    if (isPlaceholder(p.image_url)) {
+      img.src = placeholderSVG(p.name, p.accent);
+      img.classList.add('is-placeholder');
+    } else {
+      img.src = p.image_url;
+      if (isPhoto(p.image_url)) img.classList.add('is-photo');
+    }
     img.alt = p.name;
     img.loading = 'lazy';
-    if (isPhoto(p.image_url)) img.classList.add('is-photo');
     art.appendChild(img);
 
     const cat = document.createElement('span');
@@ -249,11 +286,17 @@
       li.className = 'cart-item';
       li.style.setProperty('--accent-color', product.accent || 'var(--accent)');
 
-      const photoClass = isPhoto(product.image_url) ? ' is-photo' : '';
-      const thumbSrc = product.image_url || '/images/products/bag.svg';
+      let thumbSrc, thumbClass;
+      if (isPlaceholder(product.image_url)) {
+        thumbSrc = placeholderSVG(product.name, product.accent);
+        thumbClass = 'is-placeholder';
+      } else {
+        thumbSrc = product.image_url;
+        thumbClass = isPhoto(product.image_url) ? 'is-photo' : '';
+      }
 
       li.innerHTML = `
-        <div class="cart-thumb"><img src="${thumbSrc}" alt="" class="${photoClass.trim()}" /></div>
+        <div class="cart-thumb"><img src="${thumbSrc}" alt="" class="${thumbClass}" /></div>
         <div class="cart-info">
           <div class="cart-info-name"></div>
           <div class="cart-info-price">${fmtKRW(product.price)} × ${quantity} = ${fmtKRW(product.price * quantity)}</div>
