@@ -6,7 +6,7 @@
   <title>Raduga — CIS Food Store · Korea</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,800;1,9..144,500;1,9..144,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/main.css" />
   <link rel="icon" href="/images/raduga-logo.svg" type="image/svg+xml" />
 </head>
@@ -36,13 +36,16 @@
 
   <section class="hero">
     <div class="container hero-inner">
-      <div class="hero-text">
+      <div class="hero-text reveal">
         <span class="hero-eyebrow">Доставка по Корее</span>
-        <h1>A taste of home,<br /><span class="accent">delivered fresh.</span></h1>
-        <p>Pelmeni, smetana, Borodinsky, kvass and everything else you miss — sourced for the CIS community in Korea and brought to your door in 30–90 minutes.</p>
+        <h1>A taste of <em>home</em>,<br /><span class="accent">delivered fresh.</span></h1>
+        <p>Pelmeni, smetana, Borodinsky, kvass and everything else you miss — sourced for the CIS community in Korea and brought to your door in <strong>30–90 minutes</strong>.</p>
         <div class="hero-actions">
-          <a href="#catalog" class="btn btn-primary">Shop catalog</a>
-          <a href="/track" class="btn btn-ghost">Track my order</a>
+          <a href="#catalog" class="btn btn-primary btn-lg">
+            Shop catalog
+            <span class="btn-icon" data-icon="arrow"></span>
+          </a>
+          <a href="/track" class="btn btn-ghost btn-lg">Track my order</a>
         </div>
 
         <div class="trust-badges">
@@ -64,26 +67,49 @@
           </div>
         </div>
       </div>
-      <div class="hero-art" aria-hidden="true">
-        <div class="hero-tile"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Pelmeni_Russian.jpg/960px-Pelmeni_Russian.jpg" alt="" loading="lazy" /></div>
-        <div class="hero-tile"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Borjomi_Bottle_0.5L_PET.jpg/960px-Borjomi_Bottle_0.5L_PET.jpg" alt="" loading="lazy" /></div>
-        <div class="hero-tile"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Alenka_chocolate_2.JPG/960px-Alenka_chocolate_2.JPG" alt="" loading="lazy" /></div>
-        <div class="hero-tile"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Borodinskii_bread.jpg/960px-Borodinskii_bread.jpg" alt="" loading="lazy" /></div>
-        <div class="hero-tile"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Lyoner-1.jpg/960px-Lyoner-1.jpg" alt="" loading="lazy" /></div>
-        <div class="hero-tile"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Borscht_served.jpg/960px-Borscht_served.jpg" alt="" loading="lazy" /></div>
+
+      <div class="hero-visual reveal" aria-hidden="true">
+        <div class="hero-stage">
+          <figure class="hero-photo hero-photo-main">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Borscht_served.jpg/960px-Borscht_served.jpg" alt="" loading="eager" />
+          </figure>
+          <figure class="hero-photo hero-photo-top">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Pelmeni_Russian.jpg/960px-Pelmeni_Russian.jpg" alt="" loading="lazy" />
+          </figure>
+          <figure class="hero-photo hero-photo-bottom">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Alenka_chocolate_2.JPG/960px-Alenka_chocolate_2.JPG" alt="" loading="lazy" />
+          </figure>
+
+          <div class="hero-pill hero-pill-eta">
+            <span class="hero-pill-dot"></span>
+            <div>
+              <strong>Live now</strong>
+              <span>Avg. delivery 42 min</span>
+            </div>
+          </div>
+
+          <div class="hero-pill hero-pill-fresh">
+            <span class="hero-pill-icon" data-icon="sparkles"></span>
+            <div>
+              <strong>Fresh today</strong>
+              <span>36 SKUs in stock</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <main class="container" id="catalog">
-    <div class="catalog-section-head">
+    <div class="catalog-section-head reveal">
       <div>
-        <h2>Today's catalog</h2>
-        <p>Hand-picked CIS classics — refreshed every morning.</p>
+        <span class="section-eyebrow">Catalog</span>
+        <h2>Today's <em>fresh</em> picks</h2>
+        <p>Hand-picked CIS classics — refreshed every morning across eight categories.</p>
       </div>
     </div>
 
-    <div class="catalog-toolbar">
+    <div class="catalog-toolbar reveal">
       <div class="search">
         <span class="search-icon" data-icon="search"></span>
         <input type="search" id="searchInput" placeholder="Search for pelmeni, kvass, smetana…" />
@@ -98,18 +124,83 @@
     <section class="grid" id="productGrid"></section>
   </main>
 
+  <!-- Why Raduga -->
+  <section class="why-section">
+    <div class="container">
+      <div class="why-head reveal">
+        <span class="section-eyebrow">Why Raduga</span>
+        <h2>Built for our <em>community</em>.</h2>
+        <p>Not a logistics app pretending to be a grocery store. A real CIS deli that delivers — fast, careful and human.</p>
+      </div>
+      <div class="why-grid">
+        <article class="why-card reveal">
+          <div class="why-icon" data-tone="amber" data-icon="clock"></div>
+          <h3>Express in 30–90 min</h3>
+          <p>Live route planning across Seoul and major Korean cities — most orders arrive in under an hour.</p>
+        </article>
+        <article class="why-card reveal">
+          <div class="why-icon" data-tone="green" data-icon="sparkles"></div>
+          <h3>Fresh every morning</h3>
+          <p>Dairy, frozen and bakery restocked daily. We never ship anything we wouldn't put on our own table.</p>
+        </article>
+        <article class="why-card reveal">
+          <div class="why-icon" data-icon="basket"></div>
+          <h3>Authentic CIS sourcing</h3>
+          <p>Direct relationships with importers and producers. Real Borodinsky, real Borjomi, real prices.</p>
+        </article>
+        <article class="why-card reveal">
+          <div class="why-icon" data-tone="blue" data-icon="phone"></div>
+          <h3>Human support</h3>
+          <p>A real person picks up. Wrong item, missed time, special request — we make it right, no chatbots.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div>
-        <div class="brand small">
+      <div class="footer-brand">
+        <a href="/" class="brand">
           <span class="brand-mark"><img src="/images/raduga-logo.svg" alt="" /></span>
-          <span class="brand-name">Raduga</span>
-        </div>
-        <p>Real food from home, hand-picked for our community in Korea.</p>
+          <span class="brand-text">
+            <span class="brand-name">Raduga</span>
+            <span class="brand-sub">CIS food · Korea</span>
+          </span>
+        </a>
+        <p>A taste of home, delivered fresh across Korea — for the community, by the community.</p>
       </div>
-      <div class="footer-meta">
-        <p>Cash · Bank transfer · Card on delivery</p>
-        <p>© <span id="year"></span> Raduga · 무지개 마트</p>
+
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#catalog">Catalog</a></li>
+          <li><a href="/track">Track order</a></li>
+          <li><a href="#catalog">Categories</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Delivery</h4>
+        <ul>
+          <li>30–90 min express</li>
+          <li>Seoul · Busan · Daegu</li>
+          <li>Cash, transfer, card</li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul>
+          <li>Order issue? We make it right.</li>
+          <li>Daily 9:00 – 22:00 KST</li>
+          <li>Staff portal: <a href="/admin/login">login</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <span>© <span id="year"></span> Raduga · 무지개 마트</span>
+        <span>Made with care for the CIS community in Korea.</span>
       </div>
     </div>
   </footer>
@@ -203,6 +294,7 @@
   </div>
 
   <script src="/js/icons.js"></script>
+  <script src="/js/reveal.js"></script>
   <script src="/js/catalog.js"></script>
 </body>
 </html>
