@@ -28,8 +28,8 @@ const IMG = {
   // Adjika — real Caucasian-style brand product (OFF: Goldjick)
   adjika_jar:      OFF('460/704/311/0428/front_fr.7.400.jpg'),
 
-  // Condensed milk can — Eagle Brand front
-  eagle_milk_can:  W('thumb/1/1f/Gail_Borden_Eagle_Brand_Condensed_Milk_%28front%29.jpg/960px-Gail_Borden_Eagle_Brand_Condensed_Milk_%28front%29.jpg'),
+  // Condensed milk — real Russian "Сгущёнка Верховского МКЗ Донор" brand
+  sgushchenka_can: W('thumb/2/2e/%D0%A1%D0%B3%D1%83%D1%89%D1%91%D0%BD%D0%BA%D0%B0_%D0%92%D0%B5%D1%80%D1%85%D0%BE%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D0%9C%D0%9A%D0%97_-_%D0%94%D0%BE%D0%BD%D0%BE%D1%80.JPG/960px-%D0%A1%D0%B3%D1%83%D1%89%D1%91%D0%BD%D0%BA%D0%B0_%D0%92%D0%B5%D1%80%D1%85%D0%BE%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D0%9C%D0%9A%D0%97_-_%D0%94%D0%BE%D0%BD%D0%BE%D1%80.JPG'),
 
   // Instant noodle cup
   doshirak_cup:    W('thumb/9/95/Paldo_Dosirac_noodles_20210605_002.jpg/960px-Paldo_Dosirac_noodles_20210605_002.jpg'),
@@ -45,8 +45,11 @@ const IMG = {
   // Wrapped chocolate bar — for sweets
   alenka_bar:      W('thumb/e/e1/Alenka_chocolate_2.JPG/960px-Alenka_chocolate_2.JPG'),
 
-  // Cured-meat sausages — Tarczyński Krakowska sucha (real Polish brand, OFF)
-  krakowska_meat:  OFF('590/823/053/1521/front_en.3.400.jpg'),
+  // Cured-meat sausages — real Russian product photos (Wikipedia article images)
+  doktorskaya:     W('thumb/c/cb/%D0%94%D0%BE%D0%BA%D1%82%D0%BE%D1%80%D1%81%D0%BA%D0%B0%D1%8F_%D0%BA%D0%BE%D0%BB%D0%B1%D0%B0%D1%81%D0%B0_02.jpg/960px-%D0%94%D0%BE%D0%BA%D1%82%D0%BE%D1%80%D1%81%D0%BA%D0%B0%D1%8F_%D0%BA%D0%BE%D0%BB%D0%B1%D0%B0%D1%81%D0%B0_02.jpg'),
+  krakovskaya_ru:  W('thumb/4/48/%D0%9A%D1%80%D0%B0%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F_%D0%BA%D0%BE%D0%BB%D0%B1%D0%B0%D1%81%D0%B0_01.jpg/960px-%D0%9A%D1%80%D0%B0%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F_%D0%BA%D0%BE%D0%BB%D0%B1%D0%B0%D1%81%D0%B0_01.jpg'),
+  // Tarczyński Krakowska as fallback (OFF) for generic sausage stick
+  generic_sausage: OFF('590/823/053/1521/front_en.3.400.jpg'),
 
   // Salo — Lackmann actual brand product (OFF)
   salo_pack:       OFF('000/000/000/4270/front_de.3.400.jpg'),
@@ -89,10 +92,10 @@ const products = [
     image_url: IMG.adjika_jar,
     description: 'Hot Caucasian sauce with red pepper, garlic and herbs. 200g jar.' },
   { name: 'Condensed milk (Sgushchenka)', category: 'groceries', price: 5200, accent: '#e6d59b',
-    image_url: IMG.eagle_milk_can,
+    image_url: IMG.sgushchenka_can,
     description: 'Sweetened condensed milk in classic blue-and-white tin. 380g.' },
   { name: 'Sprats in oil', category: 'groceries', price: 6300, accent: '#a8c0c9',
-    image_url: IMG.eagle_milk_can,
+    image_url: IMG.sgushchenka_can,
     description: 'Smoked Baltic sprats in sunflower oil. 160g tin.' },
   { name: 'Doshirak instant noodles', category: 'groceries', price: 1800, accent: '#e8a072',
     image_url: IMG.doshirak_cup,
@@ -154,15 +157,15 @@ const products = [
     image_url: IMG.flour_bag,
     description: 'Small dry ring biscuits — perfect with tea. 300g pack.' },
 
-  // ===== Meat & sausages — single clean cured-meat photo =====
+  // ===== Meat & sausages =====
   { name: 'Doctor sausage (Doktorskaya)', category: 'meat', price: 13500, accent: '#e0938e',
-    image_url: IMG.krakowska_meat,
+    image_url: IMG.doktorskaya,
     description: 'Classic boiled "Doctor\'s" sausage, mild and delicate. 500g.' },
   { name: 'Salami "Moskovskaya"', category: 'meat', price: 16800, accent: '#b96655',
-    image_url: IMG.krakowska_meat,
+    image_url: IMG.generic_sausage,
     description: 'Dry-cured beef salami with peppercorns. 300g stick.' },
   { name: 'Smoked sausage "Krakovskaya"', category: 'meat', price: 14900, accent: '#c87b5d',
-    image_url: IMG.krakowska_meat,
+    image_url: IMG.krakovskaya_ru,
     description: 'Hot-smoked pork sausage with garlic and pepper. 400g.' },
   { name: 'Salo (cured pork fat)', category: 'meat', price: 11200, accent: '#f0d6c2',
     image_url: IMG.salo_pack,
