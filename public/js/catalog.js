@@ -182,6 +182,7 @@
   }
   $('#cartButton').addEventListener('click', openCart);
   $('#cartClose').addEventListener('click', closeCart);
+  $('#continueShoppingBtn').addEventListener('click', closeCart);
   scrimEl.addEventListener('click', closeCart);
 
   function addToCart(productId) {
