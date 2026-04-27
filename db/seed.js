@@ -9,7 +9,12 @@ const db = require('./database');
 // uniform grid, like a real delivery app.
 const W = (path) => `https://upload.wikimedia.org/wikipedia/commons/${path}`;
 
-// 14 studio-style packaging photos, mapped to silhouettes. Reuse is intentional.
+// Mixed sources: Wikimedia Commons (W) for general silhouettes, and
+// Open Food Facts (OFF) for actual branded product photos where the
+// brand match is exact. OFF URLs are user-uploaded packaging fronts;
+// they're stable on images.openfoodfacts.org and content-addressed.
+const OFF = (path) => `https://images.openfoodfacts.org/images/products/${path}`;
+
 const IMG = {
   // Boxed / cardboard rectangular pack — for frozen + Pryaniki
   pryaniki_box:    W('thumb/e/ea/Dutch_style_gingerbread_load%2C_German_packaging.jpg/960px-Dutch_style_gingerbread_load%2C_German_packaging.jpg'),
@@ -17,11 +22,13 @@ const IMG = {
   // Bag / sack — for grains, seeds, and dry biscuits
   flour_bag:       W('thumb/e/ee/A_nice_bag_of_wheat_flour%21.jpg/960px-A_nice_bag_of_wheat_flour%21.jpg'),
 
-  // Glass jar — for pickled / liquid-in-jar products
-  pickle_jar:      W('thumb/5/50/A_jar_of_sliced_pickled_cucumber.jpg/960px-A_jar_of_sliced_pickled_cucumber.jpg'),
+  // Glass jar — Maille brand cornichons (real packaging from OFF)
+  pickle_jar:      OFF('872/270/043/0889/front_fr.79.400.jpg'),
 
-  // Squat tin can / labeled food can
-  adjika_can:      W('thumb/e/e9/Adjika_in_a_can.jpg/960px-Adjika_in_a_can.jpg'),
+  // Adjika — real Caucasian-style brand product (OFF: Goldjick)
+  adjika_jar:      OFF('460/704/311/0428/front_fr.7.400.jpg'),
+
+  // Condensed milk can — Eagle Brand front
   eagle_milk_can:  W('thumb/1/1f/Gail_Borden_Eagle_Brand_Condensed_Milk_%28front%29.jpg/960px-Gail_Borden_Eagle_Brand_Condensed_Milk_%28front%29.jpg'),
 
   // Instant noodle cup
@@ -31,16 +38,18 @@ const IMG = {
   sour_cream_tub:  W('thumb/4/46/Moscow%2C_Aug.2025_-_Pyatyorochka_private-label_sour_cream_01.jpg/960px-Moscow%2C_Aug.2025_-_Pyatyorochka_private-label_sour_cream_01.jpg'),
   twarog_tub:      W('thumb/3/3b/Twarog_packaged.JPG/960px-Twarog_packaged.JPG'),
 
-  // Bottles — clean studio shots
-  borjomi_bottle:  W('1/15/Borjomi_Bottle_0.5L_PET.jpg'),
+  // Bottles — Borjomi is the actual brand product (OFF), cranberry is generic
+  borjomi_bottle:  OFF('486/001/900/1346/front_fr.3.400.jpg'),
   cranberry_bottle:W('thumb/8/83/Lifetothefullest_cranberry_juice_bottle%2C_Hillegersberg%2C_Rotterdam_%282022%29_04.jpg/960px-Lifetothefullest_cranberry_juice_bottle%2C_Hillegersberg%2C_Rotterdam_%282022%29_04.jpg'),
 
   // Wrapped chocolate bar — for sweets
   alenka_bar:      W('thumb/e/e1/Alenka_chocolate_2.JPG/960px-Alenka_chocolate_2.JPG'),
 
-  // Cylindrical sausage / cured-meat package — single image for all meats
-  // (the user explicitly noted this Krakowska shot reads clean)
-  krakowska_meat:  W('thumb/8/81/Krakowska_brand_dry_polish_sausage_sucha.jpg/960px-Krakowska_brand_dry_polish_sausage_sucha.jpg'),
+  // Cured-meat sausages — Tarczyński Krakowska sucha (real Polish brand, OFF)
+  krakowska_meat:  OFF('590/823/053/1521/front_en.3.400.jpg'),
+
+  // Salo — Lackmann actual brand product (OFF)
+  salo_pack:       OFF('000/000/000/4270/front_de.3.400.jpg'),
 
   // Bread loaves — kept as the actual product because no clean
   // "packaged loaf" photo exists in Commons for either type
@@ -77,7 +86,7 @@ const products = [
     image_url: IMG.pickle_jar,
     description: 'Crunchy salt-pickled cucumbers in dill brine. 720g jar.' },
   { name: 'Adjika spicy paste', category: 'groceries', price: 5900, accent: '#e57b5a',
-    image_url: IMG.adjika_can,
+    image_url: IMG.adjika_jar,
     description: 'Hot Caucasian sauce with red pepper, garlic and herbs. 200g jar.' },
   { name: 'Condensed milk (Sgushchenka)', category: 'groceries', price: 5200, accent: '#e6d59b',
     image_url: IMG.eagle_milk_can,
@@ -156,7 +165,7 @@ const products = [
     image_url: IMG.krakowska_meat,
     description: 'Hot-smoked pork sausage with garlic and pepper. 400g.' },
   { name: 'Salo (cured pork fat)', category: 'meat', price: 11200, accent: '#f0d6c2',
-    image_url: IMG.krakowska_meat,
+    image_url: IMG.salo_pack,
     description: 'Salt-cured pork fat with garlic. Best on black bread. 300g pack.' },
 
   // ===== Ready food — sealed deli containers =====
