@@ -78,14 +78,26 @@ button { font-family: inherit; cursor: pointer; }
 .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 700; }
 .brand-mark {
   width: 44px; height: 44px; border-radius: 14px;
-  display: inline-grid; place-items: center; font-size: 24px;
-  background: linear-gradient(135deg, #ffe1cf, #ffc89c);
+  display: inline-grid; place-items: center;
+  background: linear-gradient(135deg, #ffe7d6, #ffd4ad);
   box-shadow: var(--shadow-sm);
+  padding: 7px;
 }
+.brand-mark img { width: 100%; height: 100%; }
 .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
 .brand-name { font-size: 20px; letter-spacing: .2px; }
 .brand-sub { font-size: 11px; color: var(--muted); font-weight: 500; letter-spacing: .4px; text-transform: uppercase; }
-.brand.small .brand-mark { width: 32px; height: 32px; font-size: 18px; border-radius: 10px; }
+.brand.small .brand-mark { width: 32px; height: 32px; border-radius: 10px; padding: 5px; }
+
+/* ===== Icons (lucide-style inline SVG, mounted via data-icon) ===== */
+[data-icon] {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+[data-icon] svg { width: 100%; height: 100%; }
+.btn .btn-icon { width: 18px; height: 18px; }
+.btn.icon-leading { gap: 6px; }
+.payment-icon { width: 22px; height: 22px; color: var(--brand); }
 
 .nav { display: flex; align-items: center; gap: 4px; }
 .nav-link {
@@ -103,7 +115,7 @@ button { font-family: inherit; cursor: pointer; }
   transition: transform .15s ease, box-shadow .15s ease;
 }
 .cart-button:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
-.cart-icon { font-size: 18px; }
+.cart-icon { width: 20px; height: 20px; color: var(--ink); }
 .cart-count {
   position: absolute; top: -6px; right: -6px;
   background: var(--brand); color: #fff;
@@ -142,10 +154,12 @@ button { font-family: inherit; cursor: pointer; }
   background: linear-gradient(160deg, color-mix(in oklab, var(--accent) 65%, white) 0%, color-mix(in oklab, var(--accent) 25%, white) 100%);
   border-radius: 22px;
   display: grid; place-items: center;
-  font-size: 44px;
+  padding: 14px;
   box-shadow: var(--shadow-md);
   transition: transform .25s ease;
+  overflow: hidden;
 }
+.hero-tile img { width: 100%; height: 100%; object-fit: contain; }
 .hero-tile:nth-child(2) { transform: translateY(20px); }
 .hero-tile:nth-child(4) { transform: translateY(-15px); }
 .hero-tile:nth-child(6) { transform: translateY(20px); }
@@ -173,10 +187,12 @@ button { font-family: inherit; cursor: pointer; }
 
 .icon-btn {
   width: 36px; height: 36px; border-radius: 10px;
-  background: transparent; border: 0; font-size: 16px; color: var(--ink-soft);
+  background: transparent; border: 0; color: var(--ink-soft);
   display: grid; place-items: center;
+  padding: 8px;
 }
 .icon-btn:hover { background: var(--bg-soft); color: var(--ink); }
+.icon-btn svg { width: 100%; height: 100%; }
 
 /* ===== Catalog toolbar ===== */
 .catalog-toolbar {
@@ -197,6 +213,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .search-icon {
   position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted);
+  width: 18px; height: 18px;
 }
 
 .categories {
@@ -237,10 +254,22 @@ button { font-family: inherit; cursor: pointer; }
   aspect-ratio: 4 / 3;
   display: grid; place-items: center;
   background:
-    radial-gradient(120% 80% at 50% 20%, rgba(255, 255, 255, .6) 0%, transparent 60%),
-    linear-gradient(160deg, color-mix(in oklab, var(--accent-color, var(--accent)) 70%, white) 0%, color-mix(in oklab, var(--accent-color, var(--accent)) 25%, white) 100%);
-  font-size: 64px;
+    radial-gradient(120% 80% at 50% 20%, rgba(255, 255, 255, .55) 0%, transparent 60%),
+    linear-gradient(160deg, color-mix(in oklab, var(--accent-color, var(--accent)) 65%, white) 0%, color-mix(in oklab, var(--accent-color, var(--accent)) 22%, white) 100%);
   position: relative;
+  overflow: hidden;
+}
+.card-art img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  padding: 14px;
+  transition: transform .35s ease;
+}
+.card:hover .card-art img { transform: scale(1.04); }
+/* If a product has a real photograph (jpg/png/webp), it should fill the frame */
+.card-art img.is-photo {
+  object-fit: cover;
+  padding: 0;
 }
 .card-art::after {
   content: '';
@@ -250,11 +279,14 @@ button { font-family: inherit; cursor: pointer; }
 }
 .card-cat {
   position: absolute; top: 12px; left: 12px;
-  background: rgba(255,255,255,.85); backdrop-filter: blur(6px);
+  background: rgba(255,255,255,.92); backdrop-filter: blur(6px);
   color: var(--ink-soft); font-size: 11px; font-weight: 700;
-  padding: 4px 10px; border-radius: 999px;
+  padding: 5px 10px 5px 8px; border-radius: 999px;
   text-transform: uppercase; letter-spacing: .4px;
+  display: inline-flex; align-items: center; gap: 5px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
 }
+.card-cat-icon { width: 14px; height: 14px; color: var(--ink); }
 
 .card-body {
   padding: 16px 18px 18px;
@@ -290,7 +322,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .state-error { color: var(--brand-deep); }
 .state-placeholder { padding: 80px 16px; }
-.placeholder-icon { font-size: 56px; margin-bottom: 12px; opacity: .7; }
+.placeholder-icon { width: 56px; height: 56px; margin: 0 auto 12px; color: var(--muted); opacity: .7; }
 
 /* ===== Cart drawer ===== */
 .cart {
@@ -319,7 +351,7 @@ button { font-family: inherit; cursor: pointer; }
 .cart-total strong { font-size: 22px; }
 
 .cart-empty { text-align: center; padding: 48px 16px; }
-.cart-empty-icon { font-size: 48px; margin-bottom: 8px; }
+.cart-empty-icon { width: 56px; height: 56px; margin: 0 auto 12px; color: var(--muted); opacity: .8; }
 
 .cart-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
 .cart-item {
@@ -328,9 +360,13 @@ button { font-family: inherit; cursor: pointer; }
 }
 .cart-thumb {
   width: 56px; height: 56px; border-radius: 12px;
-  display: grid; place-items: center; font-size: 28px;
-  background: linear-gradient(160deg, color-mix(in oklab, var(--accent-color, var(--accent)) 70%, white), color-mix(in oklab, var(--accent-color, var(--accent)) 30%, white));
+  display: grid; place-items: center;
+  background: linear-gradient(160deg, color-mix(in oklab, var(--accent-color, var(--accent)) 65%, white), color-mix(in oklab, var(--accent-color, var(--accent)) 25%, white));
+  padding: 6px;
+  overflow: hidden;
 }
+.cart-thumb img { width: 100%; height: 100%; object-fit: contain; }
+.cart-thumb img.is-photo { object-fit: cover; padding: 0; }
 .cart-info { min-width: 0; }
 .cart-info-name { font-weight: 600; font-size: 14px; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cart-info-price { font-size: 12px; color: var(--muted); margin-top: 2px; }
@@ -341,15 +377,20 @@ button { font-family: inherit; cursor: pointer; }
 }
 .qty button {
   width: 28px; height: 28px; border-radius: 999px; border: 0;
-  background: transparent; color: var(--ink); font-size: 16px; line-height: 1;
+  background: transparent; color: var(--ink); line-height: 1;
+  display: grid; place-items: center; padding: 6px;
 }
 .qty button:hover { background: var(--surface); box-shadow: var(--shadow-sm); }
+.qty button svg { width: 100%; height: 100%; }
 .qty span { min-width: 22px; text-align: center; font-weight: 600; font-size: 13px; }
 
 .remove-btn {
-  background: transparent; border: 0; color: var(--muted); font-size: 16px; padding: 4px 6px;
+  background: transparent; border: 0; color: var(--muted);
+  width: 30px; height: 30px; border-radius: 8px;
+  display: grid; place-items: center; padding: 6px;
 }
-.remove-btn:hover { color: var(--brand); }
+.remove-btn:hover { color: var(--brand); background: var(--brand-soft); }
+.remove-btn svg { width: 100%; height: 100%; }
 
 .scrim {
   position: fixed; inset: 0; background: rgba(40, 25, 15, .35);
@@ -434,9 +475,11 @@ button { font-family: inherit; cursor: pointer; }
 .success-icon {
   width: 64px; height: 64px; border-radius: 50%;
   background: var(--green-soft); color: var(--green);
-  display: grid; place-items: center; font-size: 32px;
+  display: grid; place-items: center;
   margin: 0 auto 12px;
+  padding: 16px;
 }
+.success-icon svg { width: 100%; height: 100%; stroke-width: 2.5; }
 .success-card h2 { margin: 4px 0 6px; }
 .success-row {
   display: flex; justify-content: space-between; align-items: center;

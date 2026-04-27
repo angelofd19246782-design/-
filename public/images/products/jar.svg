@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <linearGradient id="jarGlass" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#eaf5fb"/>
+      <stop offset="100%" stop-color="#bcd9e8"/>
+    </linearGradient>
+  </defs>
+  <!-- shadow -->
+  <ellipse cx="100" cy="180" rx="55" ry="7" fill="#000" opacity="0.08"/>
+  <!-- lid -->
+  <rect x="55" y="32" width="90" height="24" rx="4" fill="#c9472d" stroke="#6f2516" stroke-width="2.5"/>
+  <line x1="60" y1="42" x2="140" y2="42" stroke="#6f2516" stroke-width="1.5" opacity="0.5"/>
+  <line x1="60" y1="48" x2="140" y2="48" stroke="#6f2516" stroke-width="1.5" opacity="0.5"/>
+  <!-- neck -->
+  <rect x="58" y="56" width="84" height="14" fill="url(#jarGlass)" stroke="#7a8a96" stroke-width="2"/>
+  <!-- body -->
+  <path d="M48 70 L48 170 Q48 178, 56 178 L144 178 Q152 178, 152 170 L152 70 Z"
+        fill="url(#jarGlass)" stroke="#7a8a96" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- contents (pickles/sauce — 3 ovals) -->
+  <ellipse cx="78" cy="120" rx="14" ry="34" fill="#9ec77c" stroke="#5e8e3e" stroke-width="2" opacity="0.85"/>
+  <ellipse cx="100" cy="124" rx="14" ry="36" fill="#7eaf52" stroke="#5e8e3e" stroke-width="2" opacity="0.85"/>
+  <ellipse cx="122" cy="120" rx="14" ry="34" fill="#9ec77c" stroke="#5e8e3e" stroke-width="2" opacity="0.85"/>
+  <!-- label -->
+  <rect x="62" y="100" width="76" height="38" rx="3" fill="#fff" opacity="0.92" stroke="#7a8a96" stroke-width="1.5"/>
+  <text x="100" y="123" text-anchor="middle" font-family="serif" font-weight="700" font-size="14" fill="#3d2c1f">Raduga</text>
+  <line x1="72" y1="130" x2="128" y2="130" stroke="#aaa" stroke-width="1"/>
+  <!-- highlight -->
+  <path d="M55 78 L55 165" stroke="#fff" stroke-width="3" opacity="0.5" stroke-linecap="round"/>
+</svg>

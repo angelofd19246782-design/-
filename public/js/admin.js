@@ -22,6 +22,13 @@
     on_the_way: { value: 'delivered', label: 'Mark as delivered' }
   };
 
+  function statusPill(status) {
+    const I = window.RadugaIcons;
+    const iconName = I && I.statusIcons[status];
+    const icon = iconName ? `<span class="status-icon">${I.get(iconName)}</span>` : '';
+    return `<span class="status-pill ${status}">${icon}${STATUS_LABELS[status] || status}</span>`;
+  }
+
   const state = {
     orders: [],
     filter: 'all',
@@ -93,7 +100,7 @@
       li.innerHTML = `
         <div class="order-row-top">
           <span class="order-row-num"></span>
-          <span class="status-pill ${o.status}">${STATUS_LABELS[o.status] || o.status}</span>
+          ${statusPill(o.status)}
         </div>
         <div class="order-row-name"></div>
         <div class="order-row-meta">
@@ -160,7 +167,7 @@
           <h2></h2>
           <span class="muted detail-time"></span>
         </div>
-        <span class="status-pill ${o.status}">${STATUS_LABELS[o.status] || o.status}</span>
+        ${statusPill(o.status)}
       </div>
 
       <div class="detail-grid">

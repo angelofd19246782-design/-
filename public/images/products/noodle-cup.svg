@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <linearGradient id="cupBody" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#c9472d"/>
+      <stop offset="50%" stop-color="#e87a5c"/>
+      <stop offset="100%" stop-color="#a13a23"/>
+    </linearGradient>
+  </defs>
+  <!-- shadow -->
+  <ellipse cx="100" cy="180" rx="64" ry="7" fill="#000" opacity="0.1"/>
+  <!-- foil top -->
+  <ellipse cx="100" cy="46" rx="60" ry="12" fill="#e9eef2" stroke="#5a6770" stroke-width="2"/>
+  <ellipse cx="100" cy="44" rx="56" ry="9" fill="#fff" stroke="#5a6770" stroke-width="1.5"/>
+  <line x1="60" y1="42" x2="140" y2="42" stroke="#9aa7af" stroke-width="1" opacity="0.6"/>
+  <!-- cup body (tapered) -->
+  <path d="M44 46 L60 168 Q62 174, 70 174 L130 174 Q138 174, 140 168 L156 46 Z"
+        fill="url(#cupBody)" stroke="#6f2516" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- bottom rim -->
+  <ellipse cx="100" cy="174" rx="32" ry="6" fill="#a13a23" stroke="#6f2516" stroke-width="2"/>
+  <!-- label oval -->
+  <ellipse cx="100" cy="115" rx="42" ry="28" fill="#fff" opacity="0.95" stroke="#6f2516" stroke-width="1.5"/>
+  <text x="100" y="110" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="13" fill="#c9472d">DOSHIRAK</text>
+  <text x="100" y="125" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#3d2c1f">Beef · 90g</text>
+  <!-- noodle squiggle escaping -->
+  <path d="M75 48 Q80 30 90 38 Q100 46 110 32 Q120 22 128 38" stroke="#f3cf85" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- steam -->
+  <path d="M70 30 Q65 15, 75 5" stroke="#9aa7af" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M132 30 Q138 15, 130 5" stroke="#9aa7af" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+</svg>

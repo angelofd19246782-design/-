@@ -99,6 +99,10 @@
     gridEl.appendChild(frag);
   }
 
+  function isPhoto(url) {
+    return /\.(jpe?g|png|webp|avif|gif)(\?|$)/i.test(String(url || ''));
+  }
+
   function productCard(p) {
     const card = document.createElement('article');
     card.className = 'card';
@@ -106,11 +110,24 @@
     const art = document.createElement('div');
     art.className = 'card-art';
     art.style.setProperty('--accent-color', p.accent || 'var(--accent)');
-    art.textContent = p.emoji || '🛒';
+
+    const img = document.createElement('img');
+    img.src = p.image_url || '/images/products/bag.svg';
+    img.alt = p.name;
+    img.loading = 'lazy';
+    if (isPhoto(p.image_url)) img.classList.add('is-photo');
+    art.appendChild(img);
 
     const cat = document.createElement('span');
     cat.className = 'card-cat';
-    cat.textContent = categoryLabel(p.category);
+    const catIconName = (window.RadugaIcons && window.RadugaIcons.categoryIcons[p.category]) || '';
+    if (catIconName) {
+      const catIcon = document.createElement('span');
+      catIcon.className = 'card-cat-icon';
+      catIcon.innerHTML = window.RadugaIcons.get(catIconName);
+      cat.appendChild(catIcon);
+    }
+    cat.appendChild(document.createTextNode(categoryLabel(p.category)));
     art.appendChild(cat);
 
     const body = document.createElement('div');
@@ -228,31 +245,36 @@
     cartEmptyEl.style.display = 'none';
     checkoutBtn.disabled = false;
 
+    const I = window.RadugaIcons || { get: () => '' };
     for (const { product, quantity } of lines) {
       const li = document.createElement('li');
       li.className = 'cart-item';
       li.style.setProperty('--accent-color', product.accent || 'var(--accent)');
 
+      const photoClass = isPhoto(product.image_url) ? ' is-photo' : '';
+      const thumbSrc = product.image_url || '/images/products/bag.svg';
+
       li.innerHTML = `
-        <div class="cart-thumb">${product.emoji || '🛒'}</div>
+        <div class="cart-thumb"><img src="${thumbSrc}" alt="" class="${photoClass.trim()}" /></div>
         <div class="cart-info">
           <div class="cart-info-name"></div>
           <div class="cart-info-price">${fmtKRW(product.price)} × ${quantity} = ${fmtKRW(product.price * quantity)}</div>
         </div>
         <div class="cart-controls" style="display:flex;align-items:center;gap:6px;">
           <div class="qty">
-            <button type="button" data-action="dec" aria-label="Decrease">−</button>
+            <button type="button" data-action="dec" aria-label="Decrease">${I.get('minus')}</button>
             <span>${quantity}</span>
-            <button type="button" data-action="inc" aria-label="Increase">+</button>
+            <button type="button" data-action="inc" aria-label="Increase">${I.get('plus')}</button>
           </div>
-          <button type="button" class="remove-btn" data-action="rm" aria-label="Remove">🗑</button>
+          <button type="button" class="remove-btn" data-action="rm" aria-label="Remove">${I.get('trash')}</button>
         </div>
       `;
       li.querySelector('.cart-info-name').textContent = product.name;
 
       li.addEventListener('click', (e) => {
-        const action = e.target && e.target.dataset && e.target.dataset.action;
-        if (!action) return;
+        const trigger = e.target && e.target.closest && e.target.closest('[data-action]');
+        if (!trigger) return;
+        const action = trigger.dataset.action;
         if (action === 'inc') setQty(product.id, quantity + 1);
         else if (action === 'dec') setQty(product.id, quantity - 1);
         else if (action === 'rm') setQty(product.id, 0);

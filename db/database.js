@@ -20,6 +20,7 @@ db.exec(`
     description TEXT,
     emoji TEXT,
     accent TEXT,
+    image_url TEXT,
     in_stock INTEGER NOT NULL DEFAULT 1
   );
 
@@ -61,6 +62,12 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_orders_phone ON orders(phone);
   CREATE INDEX IF NOT EXISTS idx_order_items_order ON order_items(order_id);
 `);
+
+// Idempotent migration for older DBs that pre-date image_url
+const productCols = db.prepare("PRAGMA table_info(products)").all();
+if (!productCols.some((c) => c.name === 'image_url')) {
+  db.exec("ALTER TABLE products ADD COLUMN image_url TEXT");
+}
 
 function ensureDefaultAdmin() {
   const row = db.prepare('SELECT COUNT(*) AS c FROM employees').get();

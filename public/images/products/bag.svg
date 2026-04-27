@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <linearGradient id="bagGrad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f6e8c8"/>
+      <stop offset="100%" stop-color="#cda76a"/>
+    </linearGradient>
+  </defs>
+  <!-- shadow -->
+  <ellipse cx="100" cy="180" rx="70" ry="8" fill="#000" opacity="0.08"/>
+  <!-- bag body -->
+  <path d="M55 60
+           L50 175
+           Q50 182, 58 182
+           L142 182
+           Q150 182, 150 175
+           L145 60 Z"
+        fill="url(#bagGrad)" stroke="#7a5a35" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- tied top -->
+  <path d="M55 60 Q60 40, 75 36 L125 36 Q140 40, 145 60 Z"
+        fill="#e7d2a8" stroke="#7a5a35" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- tie cord -->
+  <path d="M65 50 Q100 30, 135 50" stroke="#7a5a35" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <circle cx="100" cy="38" r="6" fill="#a37d44" stroke="#7a5a35" stroke-width="2"/>
+  <!-- label -->
+  <rect x="68" y="95" width="64" height="44" rx="4" fill="#fff" stroke="#7a5a35" stroke-width="2"/>
+  <line x1="74" y1="108" x2="126" y2="108" stroke="#c9472d" stroke-width="3" stroke-linecap="round"/>
+  <line x1="74" y1="118" x2="126" y2="118" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="74" y1="124" x2="116" y2="124" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="74" y1="130" x2="120" y2="130" stroke="#aaa" stroke-width="1.5"/>
+  <!-- weight band -->
+  <rect x="78" y="148" width="44" height="12" rx="3" fill="#3a7bbf" opacity="0.85"/>
+</svg>

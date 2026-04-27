@@ -4,7 +4,7 @@ const db = require('../db/database');
 const router = express.Router();
 
 const listStmt = db.prepare(`
-  SELECT id, name, category, price, description, emoji, accent, in_stock
+  SELECT id, name, category, price, description, accent, image_url, in_stock
   FROM products
   WHERE in_stock = 1
   ORDER BY category, name

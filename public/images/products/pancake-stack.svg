@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- plate -->
+  <ellipse cx="100" cy="160" rx="78" ry="12" fill="#e8e0cf" stroke="#aa9876" stroke-width="2"/>
+  <!-- bottom pancake -->
+  <ellipse cx="100" cy="142" rx="62" ry="14" fill="#e7b76a" stroke="#7a5a35" stroke-width="2.5"/>
+  <rect x="38" y="135" width="124" height="9" fill="#e7b76a"/>
+  <rect x="38" y="135" width="124" height="9" stroke="#7a5a35" stroke-width="2.5" fill="none"/>
+  <ellipse cx="100" cy="135" rx="62" ry="14" fill="#f0c97e" stroke="#7a5a35" stroke-width="2.5"/>
+  <!-- middle pancake -->
+  <rect x="42" y="115" width="116" height="9" fill="#e7b76a"/>
+  <rect x="42" y="115" width="116" height="9" stroke="#7a5a35" stroke-width="2.5" fill="none"/>
+  <ellipse cx="100" cy="115" rx="58" ry="13" fill="#f3cf85" stroke="#7a5a35" stroke-width="2.5"/>
+  <!-- top pancake -->
+  <rect x="46" y="95" width="108" height="9" fill="#e7b76a"/>
+  <rect x="46" y="95" width="108" height="9" stroke="#7a5a35" stroke-width="2.5" fill="none"/>
+  <ellipse cx="100" cy="95" rx="54" ry="12" fill="#f6d68f" stroke="#7a5a35" stroke-width="2.5"/>
+  <!-- butter pat -->
+  <rect x="84" y="78" width="32" height="14" rx="3" fill="#fff2b8" stroke="#c19a3a" stroke-width="2"/>
+  <!-- syrup drips -->
+  <path d="M70 96 Q68 108 72 116" stroke="#9c5b22" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M132 96 Q136 110 132 122" stroke="#9c5b22" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>
