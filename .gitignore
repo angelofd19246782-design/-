@@ -23,6 +23,10 @@ logs/
 *.log
 npm-debug.log*
 
+# local image manifest (user fills with URLs they sourced themselves)
+scripts/images.manifest.json
+public/images/products/*.part
+
 # editor / OS
 .DS_Store
 .vscode/

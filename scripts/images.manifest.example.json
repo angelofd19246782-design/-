@@ -1,0 +1,47 @@
+{
+  "_comment": "Copy this file to scripts/images.manifest.json and fill in URLs. Run: npm run fetch-images",
+
+  "pelmeni":          "https://example.com/path/to/pelmeni.jpg",
+  "vareniki":         "https://example.com/path/to/vareniki.jpg",
+  "bliny":            "https://example.com/path/to/bliny.jpg",
+  "chebureki":        "https://example.com/path/to/chebureki.jpg",
+
+  "grechka":          "",
+  "buckwheat_flour":  "",
+  "pickles":          "",
+  "adjika":           "",
+  "sunflower":        "",
+  "condensed_milk":   "",
+  "doshirak":         "",
+  "sprats":           "",
+
+  "smetana":          "",
+  "tvorog":           "",
+  "kefir":            "",
+  "ryazhenka":        "",
+
+  "borjomi":          "",
+  "kvass":            "",
+  "mors":             "",
+  "compote":          "",
+
+  "alenka":           "",
+  "halva":            "",
+  "pryaniki":         "",
+  "zefir":            "",
+  "krasny_oktyabr":   "",
+
+  "borodinsky":       "",
+  "baton":            "",
+  "sushki":           "",
+
+  "doctor_sausage":   "",
+  "salami":           "",
+  "krakovskaya":      "",
+  "salo":             "",
+
+  "olivier":          "",
+  "selyodka":         "",
+  "borscht":          "",
+  "holodets":         ""
+}

@@ -62,6 +62,33 @@ npm run seed
 
 This refreshes the products table with the demo catalog. Existing orders are not affected.
 
+### Hosting your own product images
+
+By default the catalog uses public photos from Wikimedia Commons and
+Open Food Facts. To replace any product with a clean studio photo
+sourced from a marketplace (Ozon, Wildberries, Amazon, brand site,
+etc.), use the bundled fetcher:
+
+```bash
+# 1. Copy the example manifest and fill it in
+cp scripts/images.manifest.example.json scripts/images.manifest.json
+# … edit the file: paste URLs against the keys you care about …
+
+# 2. Download into public/images/products/
+npm run fetch-images
+
+# 3. The script prints a snippet to paste into db/seed.js (the IMG
+#    object), pointing each key at /images/products/<key>.<ext>.
+
+# 4. Refresh the DB
+npm run seed
+```
+
+`scripts/images.manifest.json` is git-ignored, so each environment
+can have its own URL list. Add `--force` to the fetch command to
+redownload existing files. The script follows up to 5 redirects and
+times out after 20 s per file.
+
 ## Deploying to Railway
 
 1. Push this repo to GitHub.
