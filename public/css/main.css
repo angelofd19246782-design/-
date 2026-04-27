@@ -246,8 +246,15 @@ html:not(.has-reveal) .reveal { opacity: 1; transform: none; }
 /* ===== Hero ===== */
 .hero { padding: 80px 0 48px; position: relative; }
 .hero-inner {
-  display: grid; grid-template-columns: 1.05fr .95fr; gap: 64px; align-items: center;
+  display: grid;
+  /* minmax(0, ...) on both tracks ensures children with overflow:hidden /
+     ellipsis can actually shrink rather than blowing out the row */
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  gap: 64px;
+  align-items: center;
 }
+.hero-text { min-width: 0; }
+.hero-visual { min-width: 0; }
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 8px 16px;
@@ -371,31 +378,63 @@ html:not(.has-reveal) .reveal { opacity: 1; transform: none; }
 /* Trust badges below hero text */
 .trust-badges {
   margin-top: 36px;
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;
-  max-width: 600px;
+  display: grid;
+  /* minmax(0, 1fr) is the key — lets columns shrink below content width,
+     so children with overflow:hidden can ellipsis instead of pushing the
+     whole card wider than its column. */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
 }
 .trust-badge {
-  display: flex; align-items: center; gap: 10px;
-  padding: 12px 14px;
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  min-width: 0;        /* allow flex shrinking */
+  min-height: 64px;    /* equal heights on all 4 */
+  overflow: hidden;    /* hard guard against any leak */
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 14px;
   box-shadow: var(--shadow-xs);
   transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
-.trust-badge:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); border-color: var(--line-strong); }
+.trust-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--line-strong);
+}
 .trust-badge-icon {
-  width: 32px; height: 32px; border-radius: 10px;
-  display: grid; place-items: center; padding: 7px;
+  width: 36px; height: 36px; border-radius: 11px;
+  display: grid; place-items: center; padding: 8px;
   background: var(--brand-soft); color: var(--brand-deep);
   flex-shrink: 0;
 }
 .trust-badge-icon[data-tone="green"] { background: var(--green-soft); color: var(--green-deep); }
 .trust-badge-icon[data-tone="blue"]  { background: var(--blue-soft); color: var(--blue-deep); }
 .trust-badge-icon[data-tone="amber"] { background: var(--accent-soft); color: var(--accent-deep); }
-.trust-badge-text { display: flex; flex-direction: column; line-height: 1.2; min-width: 0; }
-.trust-badge-text strong { font-size: 13px; font-weight: 700; color: var(--ink); white-space: nowrap; font-family: var(--font-display); }
-.trust-badge-text span  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.trust-badge-text {
+  display: flex; flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;        /* CRITICAL: lets children ellipsis correctly */
+  line-height: 1.25;
+  overflow: hidden;
+}
+.trust-badge-text strong {
+  font-size: 13px; font-weight: 700; color: var(--ink);
+  font-family: var(--font-display);
+  /* one-line title, ellipsis on overflow */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: -.005em;
+}
+.trust-badge-text span {
+  font-size: 11px; color: var(--muted); margin-top: 3px;
+  /* one-line subtitle, ellipsis on overflow */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 /* ===== Catalog toolbar ===== */
 .catalog-section-head {
@@ -566,7 +605,10 @@ html:not(.has-reveal) .reveal { opacity: 1; transform: none; }
 .why-head p { color: var(--muted); font-size: 16px; line-height: 1.6; margin: 0; }
 
 .why-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;   /* equal heights */
 }
 .why-card {
   background: var(--surface);
@@ -575,6 +617,10 @@ html:not(.has-reveal) .reveal { opacity: 1; transform: none; }
   padding: 28px 26px;
   box-shadow: var(--shadow-sm);
   transition: transform .25s ease, box-shadow .25s ease, border-color .2s ease;
+  min-width: 0;
+  display: flex; flex-direction: column;
+  overflow: hidden;       /* hard guard */
+  word-break: break-word; /* never let huge words punch out */
 }
 .why-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--line-strong); }
 .why-icon {
@@ -582,6 +628,7 @@ html:not(.has-reveal) .reveal { opacity: 1; transform: none; }
   display: grid; place-items: center; padding: 12px;
   background: var(--brand-soft); color: var(--brand-deep);
   margin-bottom: 16px;
+  flex-shrink: 0;
 }
 .why-icon[data-tone="green"] { background: var(--green-soft); color: var(--green-deep); }
 .why-icon[data-tone="blue"]  { background: var(--blue-soft); color: var(--blue-deep); }
@@ -593,8 +640,20 @@ html:not(.has-reveal) .reveal { opacity: 1; transform: none; }
   margin: 0 0 8px;
   letter-spacing: -.01em;
   font-variation-settings: "opsz" 36;
+  /* title: max 2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
-.why-card p { color: var(--muted); font-size: 14px; line-height: 1.6; margin: 0; }
+.why-card p {
+  color: var(--muted); font-size: 14px; line-height: 1.6; margin: 0;
+  /* description: max 3 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
 /* ===== Cart drawer ===== */
 .cart {
@@ -971,4 +1030,6 @@ html:not(.has-reveal) .reveal { opacity: 1; transform: none; }
   .hero h1 { font-size: 38px; }
   .hero-stage { max-width: 320px; }
   .hero-pill { transform: scale(.9); transform-origin: center; }
+  .trust-badges { grid-template-columns: 1fr; gap: 8px; }
+  .trust-badge { min-height: 56px; padding: 12px 14px; }
 }
