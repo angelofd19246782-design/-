@@ -8,13 +8,20 @@ const db = require('./database');
 // '/images/products/<file>.jpg' — the card will display it via object-fit: contain.
 const W = (path) => `https://upload.wikimedia.org/wikipedia/commons/${path}`;
 
-// Reusable image references (multiple products visually share packaging type)
+// Reusable image references — visually similar packaging types share a photo.
+// All shots are packaged products; we avoid food-on-plate / scene photos so
+// the catalog reads like a real grocery delivery app.
 const IMG = {
   vkusvill_pelmeni: W('thumb/f/f1/Moscow%2C_Vkusvill_chicken_pelmeni_Feb.2025.jpg/960px-Moscow%2C_Vkusvill_chicken_pelmeni_Feb.2025.jpg'),
   flour_bag:        W('thumb/e/ee/A_nice_bag_of_wheat_flour%21.jpg/960px-A_nice_bag_of_wheat_flour%21.jpg'),
-  halva_pack:       W('thumb/1/10/Halva_mini_bars_at_supermarket_checkout_%28cropped%29.jpg/960px-Halva_mini_bars_at_supermarket_checkout_%28cropped%29.jpg'),
   zimbo_salami:     W('thumb/a/a5/Salami_pepperoni_ZIMBO.jpg/960px-Salami_pepperoni_ZIMBO.jpg'),
-  kefir_bottle:     W('thumb/7/7f/Kefir_Ariani_bottles_in_Greece.jpg/960px-Kefir_Ariani_bottles_in_Greece.jpg')
+  kefir_bottle:     W('thumb/7/7f/Kefir_Ariani_bottles_in_Greece.jpg/960px-Kefir_Ariani_bottles_in_Greece.jpg'),
+  borscht_jar:      W('thumb/d/d8/Manischewitz_-_Borscht.jpg/960px-Manischewitz_-_Borscht.jpg'),
+  pickle_jar:       W('thumb/5/50/A_jar_of_sliced_pickled_cucumber.jpg/960px-A_jar_of_sliced_pickled_cucumber.jpg'),
+  alenka_bar:       W('thumb/e/e1/Alenka_chocolate_2.JPG/960px-Alenka_chocolate_2.JPG'),
+  pastila_pack:     W('thumb/0/0a/Russian_chocolate_konfect_07.JPG/960px-Russian_chocolate_konfect_07.JPG'),
+  twarog_tub:       W('thumb/3/3b/Twarog_packaged.JPG/960px-Twarog_packaged.JPG'),
+  cranberry_bottle: W('thumb/8/83/Lifetothefullest_cranberry_juice_bottle%2C_Hillegersberg%2C_Rotterdam_%282022%29_04.jpg/960px-Lifetothefullest_cranberry_juice_bottle%2C_Hillegersberg%2C_Rotterdam_%282022%29_04.jpg')
 };
 
 const products = [
@@ -49,7 +56,7 @@ const products = [
     image_url: W('1/1a/Sunflower_Seed_Products_bulk_and_packaged_%2826787612871%29.jpg'),
     description: 'Roasted black sunflower seeds, lightly salted. 300g pack.' },
   { name: 'Condensed milk (Sgushchenka)', category: 'groceries', price: 5200, accent: '#e6d59b',
-    image_url: W('thumb/1/1b/Cans_of_Condensed_Milk_on_the_store_shelf.jpg/960px-Cans_of_Condensed_Milk_on_the_store_shelf.jpg'),
+    image_url: W('thumb/1/1f/Gail_Borden_Eagle_Brand_Condensed_Milk_%28front%29.jpg/960px-Gail_Borden_Eagle_Brand_Condensed_Milk_%28front%29.jpg'),
     description: 'Sweetened condensed milk in classic blue-and-white tin. 380g.' },
   { name: 'Doshirak instant noodles', category: 'groceries', price: 1800, accent: '#e8a072',
     image_url: W('thumb/9/95/Paldo_Dosirac_noodles_20210605_002.jpg/960px-Paldo_Dosirac_noodles_20210605_002.jpg'),
@@ -77,7 +84,7 @@ const products = [
     image_url: W('1/15/Borjomi_Bottle_0.5L_PET.jpg'),
     description: 'Iconic Georgian sparkling mineral water. 500ml bottle.' },
   { name: 'Kvass "Ochakovsky"', category: 'drinks', price: 5800, accent: '#b88a4e',
-    image_url: W('9/9c/Kvass_being_sold_in_the_streets_of_Kaliningrad.jpg'),
+    image_url: IMG.cranberry_bottle,
     description: 'Traditional rye kvass — slightly sweet, lightly fizzy. 1.5L bottle.' },
   { name: 'Mors (cranberry)', category: 'drinks', price: 5400, accent: '#d96a76',
     image_url: W('thumb/8/83/Lifetothefullest_cranberry_juice_bottle%2C_Hillegersberg%2C_Rotterdam_%282022%29_04.jpg/960px-Lifetothefullest_cranberry_juice_bottle%2C_Hillegersberg%2C_Rotterdam_%282022%29_04.jpg'),
@@ -91,13 +98,13 @@ const products = [
     image_url: W('thumb/e/e1/Alenka_chocolate_2.JPG/960px-Alenka_chocolate_2.JPG'),
     description: 'Legendary Russian milk chocolate bar. 100g bar.' },
   { name: 'Halva sunflower', category: 'sweets', price: 6200, accent: '#d6b079',
-    image_url: IMG.halva_pack,
+    image_url: IMG.alenka_bar,
     description: 'Crumbly sunflower halva — sweet and nutty. 300g pack.' },
   { name: 'Pryaniki (honey cakes)', category: 'sweets', price: 5800, accent: '#caa07a',
     image_url: W('thumb/e/ea/Dutch_style_gingerbread_load%2C_German_packaging.jpg/960px-Dutch_style_gingerbread_load%2C_German_packaging.jpg'),
     description: 'Soft glazed honey-spice cakes — the original Russian gingerbread. 400g.' },
   { name: 'Zefir vanilla', category: 'sweets', price: 6700, accent: '#f3d8e2',
-    image_url: IMG.halva_pack,
+    image_url: IMG.pastila_pack,
     description: 'Cloud-like vanilla marshmallow treats. 250g pack.' },
   { name: 'Krasny Oktyabr candies', category: 'sweets', price: 7400, accent: '#e57676',
     image_url: W('thumb/0/0a/Russian_chocolate_konfect_07.JPG/960px-Russian_chocolate_konfect_07.JPG'),
@@ -111,7 +118,7 @@ const products = [
     image_url: W('thumb/a/ad/%D0%91%D0%B0%D1%82%D0%BE%D0%BD_%D0%A1%D0%BB%D0%BE%D0%B1%D0%BE%D0%B6%D0%B0%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D0%A5%D0%B0%D1%80%D1%8C%D0%BA%D0%BE%D0%B2.JPG/960px-%D0%91%D0%B0%D1%82%D0%BE%D0%BD_%D0%A1%D0%BB%D0%BE%D0%B1%D0%BE%D0%B6%D0%B0%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D0%A5%D0%B0%D1%80%D1%8C%D0%BA%D0%BE%D0%B2.JPG'),
     description: 'Soft Russian-style white loaf with a tender crumb. 400g.' },
   { name: 'Sushki (mini-bagels)', category: 'bakery', price: 4800, accent: '#d4ad6e',
-    image_url: IMG.halva_pack,
+    image_url: IMG.flour_bag,
     description: 'Small dry ring biscuits — perfect with tea. 300g pack.' },
 
   // ===== Meat & sausages =====
@@ -125,21 +132,25 @@ const products = [
     image_url: W('thumb/8/81/Krakowska_brand_dry_polish_sausage_sucha.jpg/960px-Krakowska_brand_dry_polish_sausage_sucha.jpg'),
     description: 'Hot-smoked pork sausage with garlic and pepper. 400g.' },
   { name: 'Salo (cured pork fat)', category: 'meat', price: 11200, accent: '#f0d6c2',
-    image_url: W('thumb/1/1d/Salo_with_pepper_closeup.jpg/960px-Salo_with_pepper_closeup.jpg'),
+    image_url: IMG.zimbo_salami,
     description: 'Salt-cured pork fat with garlic. Best on black bread. 300g pack.' },
 
   // ===== Ready food =====
+  // No good "deli salad container" photos exist on Wikimedia for these
+  // specific dishes, so we reuse clean packaged-product shots that visually
+  // represent "pre-cooked food in a sealed container" — better than plate
+  // photos for a grocery-app feel.
   { name: 'Olivier salad', category: 'ready', price: 8900, accent: '#cfd6a4',
-    image_url: W('thumb/f/f2/Waldorf_deli_salad.jpg/960px-Waldorf_deli_salad.jpg'),
+    image_url: IMG.twarog_tub,
     description: 'House-made Olivier with bologna, peas, pickles and mayo. 500g deli pack.' },
   { name: 'Selyodka pod shuboi', category: 'ready', price: 9800, accent: '#c987a3',
-    image_url: W('thumb/6/6a/Selyodka_pod_Shuboy_at_White_Nights%2C_Beijing_%2820201023130349%29.jpg/960px-Selyodka_pod_Shuboy_at_White_Nights%2C_Beijing_%2820201023130349%29.jpg'),
+    image_url: IMG.twarog_tub,
     description: 'Layered "herring under a fur coat" salad with beetroot. 500g deli pack.' },
   { name: 'Borscht (ready to heat)', category: 'ready', price: 9500, accent: '#c75858',
-    image_url: W('thumb/d/d8/Manischewitz_-_Borscht.jpg/960px-Manischewitz_-_Borscht.jpg'),
+    image_url: IMG.borscht_jar,
     description: 'Rich beetroot soup with beef. Just heat and serve. 700g jar.' },
   { name: 'Holodets (meat aspic)', category: 'ready', price: 11800, accent: '#d6b894',
-    image_url: W('e/e1/Aspic-with-eggs.jpg'),
+    image_url: IMG.borscht_jar,
     description: 'Traditional meat in jelly with garlic. Serve with mustard. 500g deli pack.' }
 ];
 
