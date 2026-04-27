@@ -1,12 +1,12 @@
 # Product images
 
-The catalog ships with hand-crafted SVG illustrations grouped by product type
-(`bottle.svg`, `bag.svg`, `dumpling.svg`, etc.) so the catalog looks polished
-out of the box.
+By default, the catalog uses real product photographs hosted on
+Wikimedia Commons (CC-licensed). The exact thumbnail URLs are set
+per product in `db/seed.js`.
 
-## Swapping in a real photograph
+## Hosting your own photos
 
-To replace any product's illustration with a real photograph:
+To replace any product's image with your own:
 
 1. Drop the file into this folder, e.g. `pelmeni.jpg` or `borjomi.webp`.
    Recommended: 600×450 (4:3), JPEG/WebP, < 100 KB each.
